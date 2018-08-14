@@ -1,0 +1,49 @@
+<idea-plugin>
+    <id>com.mint.intellij.mint</id>
+    <name>Mint language plugin</name>
+    <version>1.0</version>
+    <vendor email="kingsley.hendrickse@gmail.com" url="https://www.mint-lang.com/">Mint Language</vendor>
+
+    <description><![CDATA[
+      This plugin provides Mint language support
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Initial first cut of the language parser - nothing else.
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="145.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <fileTypeFactory implementation="net.mint.file.MintFileTypeFactory"/>
+
+        <lang.parserDefinition language="Mint" implementationClass="net.mint.lexer.MintParserDefinition"/>
+
+        <!--<lang.syntaxHighlighterFactory language="Mint"-->
+                                       <!--implementationClass="net.mint.highlighting.MintSyntaxHighlighterFactory"/>-->
+
+        <!--<colorSettingsPage-->
+                <!--implementation="net.mint.highlighting.MintColorSettingsPage" />-->
+
+        <!--<lang.commenter-->
+                <!--language="Mint"-->
+                <!--implementationClass="net.mint.features.MintCommenter"/>-->
+
+        <!--<lang.braceMatcher-->
+                <!--language="Mint"-->
+                <!--implementationClass="net.mint.features.MintPairedBraceMatcher"/>-->
+
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>

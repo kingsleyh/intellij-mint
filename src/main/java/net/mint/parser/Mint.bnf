@@ -1,0 +1,324 @@
+{
+    parserClass='net.mint.MintParser'
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    elementTypeHolderClass='net.mint.psi.MintElementTypes'
+
+    elementTypeClass='net.mint.psi.MintElementType'
+    tokenTypeClass='net.mint.psi.MintTokenType'
+
+    psiClassPrefix='Mint'
+    psiImplClassSuffix='Impl'
+    psiPackage='net.mint.psi'
+    psiImplPackage='net.mint.psi.impl'
+
+    generateTokenAccessors=false
+
+    tokens = [
+        LEFT_BRACE =                         "{"
+        RIGHT_BRACE =                        "}"
+        LEFT_PAREN =                         "("
+        RIGHT_PAREN =                        ")"
+        LEFT_BRACKET =                       "["
+        RIGHT_BRACKET =                      "]"
+        PIPE =                               "|"
+        DOT =                                "."
+        COMMA =                              ","
+        EQUAL =                              "="
+        EQUAL_EQUAL =                        "=="
+        EQUAL_EQUAL_EQUAL =                  "==="
+        BACKSLASH =                          "\\"
+        RIGHT_ARROW =                        "=>"
+        APROX_ARROW =                        "=~"
+        NOT_EQUAL =                          "!="
+        NOT_APROX =                          "!~"
+        NOT =                                "!"
+        LEFT_RIGHT_ARROW =                   "<=>"
+        LEFT_ARROW =                         "<="
+        LEFT_LEFT_ARROW =                    "<<="
+        INSERT =                             "<<"
+        LESS =                               "<"
+        GREATER_EQUAL =                      ">="
+        GREATER_GREATER_EQUAL =              ">>="
+        GREATER_GREATER =                    ">>"
+        GREATER =                            ">"
+        PLUS_EQUAL =                         "+="
+        PLUS =                               "+"
+        MINUS_EQUAL =                        "-="
+        MINUS_GREATER =                      "->"
+        MINUS =                              "-"
+        TIMES_EQUAL =                        "*="
+        TIMES_TIMES_EQUAL =                  "**="
+        TIMES_TIMES =                        "**"
+        TIMES =                              "*"
+        DIVIDENTE_EQUAL =                       "/="
+        DIVIDENTE =                             "/"
+        MODULO_EQUAL =                       "%="
+        MODULE =                             "module"
+        MACRO_BLOCK_CLOSE =                  "%}"
+        MACRO_BLOCK_OPEN =                   "{%"
+        ARRAY_EQUAL =                        "[]="
+        ARRAY_BOOL =                         "[]?"
+        ARRAY =                              "[]"
+        QUESTION =                           "?"
+        SEMICOLON =                          ";"
+        NAMESPACE =                          "::"
+        COLON =                              ":"
+        TILDE =                              "~"
+        DOT_DOT_DOT =                        "..."
+        DOT_DOT =                            ".."
+        AND_AND_EQUAL =                      "&&="
+        AND_AND =                            "&&"
+        AND_EQUAL =                          "&="
+        AND =                                "&"
+        OR_OR_EQUAL =                        "||="
+        OR_OR =                              "||"
+        OR_EQUAL =                           "|="
+        CAROT_EQUAL =                        "^="
+        CAROT =                              "^"
+        AT_BRACKET =                         "@["
+        AT =                                 "@"
+        DOLLAR_TILDE =                       "$~"
+        DOLLAR_QUESTION =                    "$?"
+        CASE =                               "case"
+        DEF =                                "def"
+        DO =                                 "do"
+        ELSE =                               "else"
+        END =                                "end"
+        IF =                                 "if"
+        NIL =                                "nil"
+        OF =                                 "of"
+        REQUIRE =                            "require"
+        WHEN =                               "when"
+        YIELD =                              "yield"
+        UNTIL =                              "until"
+        ELSIF =                              "elsif"
+        TRUE =                               "true"
+        FALSE =                              "false"
+        RAISE =                              "raise"
+
+        INCLUDE =                            "include"
+        EXTEND =                             "extend"
+        RETURN =                             "return"
+        BEGIN =                              "begin"
+        LIB =                                "lib"
+        FUN =                                "fun"
+        STRUCT =                             "struct"
+        UNION =                              "union"
+        ENUM =                               "enum"
+        MACRO =                              "macro"
+        OUT =                                "out"
+        AS =                                 "as"
+        AS_QUESTION =                        "as?"
+        TYPEOF =                             "typeof"
+        FOR =                                "for"
+        SELECT =                             "select"
+        THEN =                               "then"
+        RESCUE =                             "rescue"
+        ENSURE =                             "ensure"
+        IS_A_QUESTION =                      "is_a?"
+        ALIAS =                              "alias"
+        SIZEOF =                             "sizeof"
+        NIL_QUESTION =                       "nil?"
+        IN =                                 "in"
+        WITH =                               "with"
+        SELF =                               "self"
+        SUPER =                              "super"
+        PRIVATE =                            "private"
+        ASM =                                "asm"
+        PROTECTED =                          "protected"
+        UNINITIALIZED =                      "uninitialized"
+        INSTANCE_SIZEOF =                    "instance_sizeof"
+        ABSTRACT =                           "abstract"
+        POINTEROF =                          "pointerof"
+
+        BREAK =                              "break"
+        INITIALIZE =                         "initialize"
+        NEW =                                "new"
+        LOOP =                               "loop"
+        PREPEND =                            "prepend"
+        FAIL =                               "fail"
+        GETTER =                             "getter"
+        SETTER =                             "setter"
+        PROPERTY =                           "property"
+        CATCH =                              "catch"
+        THROW =                              "throw"
+        ABORT =                              "abort"
+        AT_EXIT =                            "at_exit"
+        AUTOLOAD =                           "autoload"
+        BINDING =                            "binding"
+        CALLCC =                             "callcc"
+         CALLER =                            "caller"
+        CALLER_LOCATIONS =                   "caller_locations"
+        CHOMP =                              "chomp"
+        CHOP =                               "chop"
+        EVAL =                               "eval"
+        EXEC =                               "exec"
+        EXIT =                               "exit"
+        EXIT_BANG =                          "exit!"
+        FORK =                               "fork"
+        FORMAT =                             "format"
+        GETS =                               "gets"
+        GLOBAL_VARIABLES =                   "global_variables"
+        GSUB =                               "gsub"
+        ITERATOR =                           "iterator"
+        LAMBDA =                             "lambda"
+        LOAD =                               "load"
+        LOCAL_VARIABLES =                    "local_variables"
+        OPEN =                               "open"
+        P =                                  "p"
+        PRINT =                              "print"
+        PRINTF =                             "printf"
+        PROC =                               "proc"
+        PUTC =                               "putc"
+        PUTS =                               "puts"
+        RAND =                               "rand"
+        READLINE =                           "readline"
+        READLINES =                          "readlines"
+        SET_TRACE_FUNC =                     "set_trace_func"
+        SLEEP =                              "sleep"
+        SPAWN =                              "spawn"
+        SPRINTF =                            "sprintf"
+        SRAND =                              "srand"
+        SUB =                                "sub"
+        SYSCALL =                            "syscall"
+        SYSTEM =                             "system"
+        TEST =                               "test"
+        TRACE_VAR =                          "trace_var"
+        TRAP =                               "trap"
+        UNTRACE_VAR =                        "untrace_var"
+        WARN =                               "warn"
+
+        COMPONENT =                          "component"
+        STORE =                              "store"
+        STATE =                              "state"
+        PROPERTY =                           "property"
+        NEXT =                               "next"
+        WHERE =                              "where"
+        HTML_CLOSE_END =                      "\\>"
+        HTML_CLOSE =                          "</"
+
+        LINE_COMMENT =                       'regexp:#.*'
+        STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
+        NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
+        CHAR_LITERAL   =                     "regexp:('([^'\\]|\\.)*')"
+
+        IDENT               = "regexp:\w+"
+        space               = 'regexp:\s+'
+    ]
+}
+
+mintFile ::= item_*
+
+private item_ ::= (statements | expressions)
+
+private compositeStatement ::= (statements | expressions)
+
+private statements ::= statement [statements]
+
+private expressions ::= expression [expressions]
+
+statement ::=
+  'component' IDENT '{' [compositeStatement] '}'
+| 'module' IDENT '{' [compositeStatement] '}'
+| 'store' IDENT '{' [compositeStatement] '}'
+
+
+expression ::=
+  mlhs '=' mrhs
+  | arg
+
+mlhs ::= mlhsItem ',' [mlhsItem (',' mlhsItem)*] [ '*' lhs] | '*' lhs
+
+mlhsItem ::= lhs | '(' mlhs ')'
+
+lhs ::=
+   variable
+   | primaries '[' [args] ']'
+   | primaries '.' IDENT
+
+mrhs ::= args [',' '*' arg] | '*' arg
+
+private args ::= arg [',' args]
+
+private arg ::= lhs '=' arg
+  | lhs opAsgn arg
+  | ('..' | '...' | '+'  | '-'  | '*'  | '/'  | '%'  | '**'  | '|'  | '^'
+    | '&' | '<=>' | '>'  | '>=' | '<'  | '<=' | '==' | '===' | '!=' | '='
+    | '!' | '~'   | '<<' |  '>>'| '&&' | '||') arg
+  | primaries
+  | htmls
+
+opAsgn ::= '+='|'-='|'*='|'/='|'%='|'**=' |'&='|'|='|'ˆ='|'<<='|'>>=' |'&&='|'||='
+
+private primaries ::= primary [primaries]
+
+private primary ::= '(' compositeStatement ')'
+| literal
+| variable
+| '::' IDENT
+| '[' [args] ']'
+| '{' [args] '}'
+| '[]'
+| '[' [args [',']] ']'
+| function
+| 'state' IDENT ':' itemType
+| 'property' IDENT ':' itemType
+| 'do' '{' [compositeStatement] '}'
+| ('.' | '::') operation ['(' [callArgs] ')']
+| 'next'
+| 'catch'
+| '=>'
+| 'where'
+
+//| 'if' expression 'then' compositeStatement ['elsif' expression 'then' compositeStatement] ['else' compositeStatement] 'end'
+//| ('case'| 'select') [compositeStatement] 'when' whenArgs 'then' compositeStatement ['when' whenArgs 'then' compositeStatement] ['else' compositeStatement] 'end'
+
+function ::=
+    'fun' IDENT [argDecl] ':' itemType '{' [compositeStatement] '}'
+
+argDecl ::= '(' argList ')' | argList
+
+itemType ::= IDENT
+
+argList ::= IDENT ':' itemType (',' IDENT ':' itemType)*
+
+private callArgs ::= args
+//       | args [',' assocs] [',' '*' args] [',' '&' arg]
+//       | assocs [',' '*' args] [',' '&' arg]
+//       | '*' arg [',' '&' arg] | '&' arg
+
+
+literal ::= (TRUE
+       | FALSE
+       | NUMBER_LITERAL
+       | STRING_LITERAL)
+
+variable ::= varName
+
+varName ::= IDENT
+
+private operation ::= IDENT ['!' | '?']
+
+
+// HTML
+private htmls ::= html [htmls]
+html ::= tagOpen | tagEmpty | tagClose
+
+tagOpen ::= '<' tagName attrList? '>'
+tagEmpty ::= '<' tagName attrList? '\/>'
+tagClose ::= '</' tagName '>'
+
+
+attrList ::= (attr)*
+attr ::= attrEmpty | attrUnquoted | attrSingleQuoted | attrDoubleQuoted
+
+attrEmpty ::= attrName
+attrUnquoted ::= attrName '=' IDENT
+attrSingleQuoted ::= attrName '=' "'" IDENT "'"
+attrDoubleQuoted ::= attrName '=' '"' IDENT '"'
+
+tagName ::= IDENT
+attrName ::= IDENT
+
