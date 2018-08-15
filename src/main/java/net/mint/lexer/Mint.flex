@@ -69,6 +69,10 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "&&"                    { return AND_AND; }
   "&"                     { return AND; }
   "||"                    { return OR_OR; }
+  "#"                     { return HASH; }
+  "$"                     { return DOLLAR; }
+  "?"                     { return QUESTION; }
+  ";"                     { return SEMI; }
   "case"                  { return CASE; }
   "do"                    { return DO; }
   "try"                   { return TRY; }
@@ -77,6 +81,8 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "true"                  { return TRUE; }
   "false"                 { return FALSE; }
   "as"                    { return AS; }
+  "decode"                { return DECODE; }
+  "encode"                { return ENCODE; }
   "using"                 { return USING; }
   "property"              { return PROPERTY; }
   "record"                { return RECORD; }
@@ -85,13 +91,13 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "module"                { return MODULE; }
   "store"                 { return STORE; }
   "state"                 { return STATE; }
-  "property"              { return PROPERTY; }
   "next"                  { return NEXT; }
   "where"                 { return WHERE; }
   "fun"                   { return FUN; }
   "get"                   { return GET; }
   "use"                   { return USE; }
   "enum"                  { return ENUM; }
+  "void"                  { return VOID; }
   "routes"                { return ROUTES; }
   "\\>"                   { return HTML_CLOSE_END; }
   "</"                    { return HTML_CLOSE; }

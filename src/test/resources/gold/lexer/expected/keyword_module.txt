@@ -1,0 +1,7 @@
+module ('module')
+WHITE_SPACE (' ')
+IDENT ('A')
+WHITE_SPACE (' ')
+{ ('{')
+WHITE_SPACE ('\n\n\n\n')
+} ('}')
