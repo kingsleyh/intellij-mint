@@ -93,14 +93,14 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "state"                 { return STATE; }
   "next"                  { return NEXT; }
   "where"                 { return WHERE; }
+  "when"                  { return WHEN; }
   "fun"                   { return FUN; }
   "get"                   { return GET; }
   "use"                   { return USE; }
   "enum"                  { return ENUM; }
   "void"                  { return VOID; }
+  "provider"              { return PROVIDER; }
   "routes"                { return ROUTES; }
-  "\\>"                   { return HTML_CLOSE_END; }
-  "</"                    { return HTML_CLOSE; }
 
   {LOWER_CASE_IDENTIFIER} { return IDENT; }
     {CAPITALISED_IDENTIFIER} {

@@ -27,7 +27,7 @@
         COMMA =                              ","
         EQUAL =                              "="
         EQUAL_EQUAL =                        "=="
-        BACKSLASH =                          "\\"
+        BACKSLASH =                          "\\\\"
         RIGHT_ARROW =                        "=>"
         NOT_EQUAL =                          "!="
         NOT =                                "!"
@@ -74,14 +74,14 @@
         PROPERTY =                           "property"
         NEXT =                               "next"
         WHERE =                              "where"
+        WHEN =                               "when"
         FUN =                                "fun"
         GET =                                "get"
         USE =                                "use"
         ENUM =                               "enum"
         VOID =                               "void"
+        PROVIDER =                           "provider"
         ROUTES =                             "routes"
-        HTML_CLOSE_END =                      "\\>"
-        HTML_CLOSE =                          "</"
         LINE_COMMENT =                       'regexp:/\*.*'
         STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
         NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
@@ -102,11 +102,13 @@ private statements ::= statement [statements]
 private expressions ::= expression [expressions]
 
 statement ::=
-  'component' IDENT '{' [compositeStatement] '}'
-| 'module' IDENT '{' [compositeStatement] '}'
-| 'store' IDENT '{' [compositeStatement] '}'
+  'component' itemType '{' [compositeStatement] '}'
+| 'module' itemType '{' [compositeStatement] '}'
+| 'store' itemType '{' [compositeStatement] '}'
 | 'record' itemType '{' [recordItems] '}'
 | 'routes' '{' [compositeStatement] '}'
+| 'provider' itemType ':' itemType '{' [compositeStatement] '}'
+| htmls
 
 private recordItems ::= recordItem [recordItems]
 
@@ -136,7 +138,7 @@ private arg ::=
   | '&'  | '>'  | '>=' | '<'  | '<=' | '==' | '!=' | '=' | '|>'
   | '!'  | '&&' | '||') arg
   | primaries
-  | htmls
+
 
 private opAsgn ::= '+'|'-'|'*'|'/'|'%'
 
@@ -160,16 +162,27 @@ private primary ::= '(' compositeStatement ')'
 | 'catch'
 | '=>'
 | 'where'
-| 'use' itemType '{' [compositeStatement] '}'
+| 'when'
+| useProvider
+| 'void'
+
+
+useProvider ::=
+  'use' itemType '{' [recordAssignments] '}'
+
+private recordAssignments ::= recordAssignment [ ',' recordAssignments]
+
+private recordAssignment ::= IDENT '=' compositeStatement
 
 //| 'if' expression 'then' compositeStatement ['elsif' expression 'then' compositeStatement] ['else' compositeStatement] 'end'
 //| ('case'| 'select') [compositeStatement] 'when' whenArgs 'then' compositeStatement ['when' whenArgs 'then' compositeStatement] ['else' compositeStatement] 'end'
 
 function ::=
-    'fun' IDENT [argDecl] ':' itemType '{' [compositeStatement] '}'
+    'fun' IDENT argDecl? ':' itemType '{' [compositeStatement] '}'
   | 'get' IDENT ':' itemType '{' [compositeStatement] '}'
+  | '(' (IDENT ':' itemType)? ')' ':' itemType '=>' '{' [compositeStatement] '}'
 
-argDecl ::= '(' argList ')' | argList
+argDecl ::= '(' argList ')' | '()' | argList
 
 private itemParts ::= itemPart [itemParts]
 private itemPart ::= IDENT ['.'] ['(' itemParts ')']
@@ -201,7 +214,7 @@ private htmls ::= html [htmls]
 html ::= tagOpen | tagEmpty | tagClose
 
 tagOpen ::= '<' tagName attrList? '>'
-tagEmpty ::= '<' tagName attrList? '\/>'
+tagEmpty ::= '<' tagName attrList? '/' '>'
 tagClose ::= '</' tagName '>'
 
 
