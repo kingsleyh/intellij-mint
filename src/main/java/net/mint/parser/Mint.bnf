@@ -112,7 +112,7 @@ statement ::=
 
 private recordItems ::= recordItem [recordItems]
 
-recordItem ::= IDENT ':' itemType ','?
+recordItem ::= IDENT ':' itemType ('using' STRING_LITERAL)? ','?
 
 expression ::=
   mlhs '=' mrhs
@@ -165,6 +165,7 @@ private primary ::= '(' compositeStatement ')'
 | 'when'
 | useProvider
 | 'void'
+| 'decode' IDENT 'as' itemType
 
 
 useProvider ::=
@@ -185,7 +186,10 @@ function ::=
 argDecl ::= '(' argList ')' | '()' | argList
 
 private itemParts ::= itemPart [itemParts]
-private itemPart ::= IDENT ['.'] ['(' itemParts ')']
+private itemPart ::= IDENT ['.'] ['(' manyParts ')']
+
+private manyParts ::= singlePart [manyParts]
+private singlePart ::= itemPart [',']
 
 itemType ::= itemParts
 
