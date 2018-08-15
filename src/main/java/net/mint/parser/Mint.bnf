@@ -27,182 +27,57 @@
         COMMA =                              ","
         EQUAL =                              "="
         EQUAL_EQUAL =                        "=="
-        EQUAL_EQUAL_EQUAL =                  "==="
         BACKSLASH =                          "\\"
         RIGHT_ARROW =                        "=>"
-        APROX_ARROW =                        "=~"
         NOT_EQUAL =                          "!="
-        NOT_APROX =                          "!~"
         NOT =                                "!"
-        LEFT_RIGHT_ARROW =                   "<=>"
         LEFT_ARROW =                         "<="
-        LEFT_LEFT_ARROW =                    "<<="
-        INSERT =                             "<<"
         LESS =                               "<"
         GREATER_EQUAL =                      ">="
-        GREATER_GREATER_EQUAL =              ">>="
-        GREATER_GREATER =                    ">>"
         GREATER =                            ">"
         PLUS_EQUAL =                         "+="
         PLUS =                               "+"
-        MINUS_EQUAL =                        "-="
         MINUS_GREATER =                      "->"
+        FUNCTION_PIPE =                      "|>"
         MINUS =                              "-"
-        TIMES_EQUAL =                        "*="
-        TIMES_TIMES_EQUAL =                  "**="
-        TIMES_TIMES =                        "**"
         TIMES =                              "*"
-        DIVIDENTE_EQUAL =                       "/="
-        DIVIDENTE =                             "/"
-        MODULO_EQUAL =                       "%="
-        MODULE =                             "module"
-        MACRO_BLOCK_CLOSE =                  "%}"
-        MACRO_BLOCK_OPEN =                   "{%"
-        ARRAY_EQUAL =                        "[]="
-        ARRAY_BOOL =                         "[]?"
+        DIVIDENTE =                          "/"
+        MODULO =                             "%"
         ARRAY =                              "[]"
-        QUESTION =                           "?"
-        SEMICOLON =                          ";"
         NAMESPACE =                          "::"
         COLON =                              ":"
-        TILDE =                              "~"
-        DOT_DOT_DOT =                        "..."
-        DOT_DOT =                            ".."
-        AND_AND_EQUAL =                      "&&="
         AND_AND =                            "&&"
-        AND_EQUAL =                          "&="
         AND =                                "&"
-        OR_OR_EQUAL =                        "||="
         OR_OR =                              "||"
-        OR_EQUAL =                           "|="
-        CAROT_EQUAL =                        "^="
-        CAROT =                              "^"
-        AT_BRACKET =                         "@["
-        AT =                                 "@"
-        DOLLAR_TILDE =                       "$~"
-        DOLLAR_QUESTION =                    "$?"
         CASE =                               "case"
-        DEF =                                "def"
         DO =                                 "do"
+        TRY =                                "try"
         ELSE =                               "else"
-        END =                                "end"
         IF =                                 "if"
-        NIL =                                "nil"
-        OF =                                 "of"
-        REQUIRE =                            "require"
-        WHEN =                               "when"
-        YIELD =                              "yield"
-        UNTIL =                              "until"
-        ELSIF =                              "elsif"
         TRUE =                               "true"
         FALSE =                              "false"
-        RAISE =                              "raise"
-
-        INCLUDE =                            "include"
-        EXTEND =                             "extend"
-        RETURN =                             "return"
-        BEGIN =                              "begin"
-        LIB =                                "lib"
-        FUN =                                "fun"
-        STRUCT =                             "struct"
-        UNION =                              "union"
-        ENUM =                               "enum"
-        MACRO =                              "macro"
-        OUT =                                "out"
         AS =                                 "as"
-        AS_QUESTION =                        "as?"
-        TYPEOF =                             "typeof"
-        FOR =                                "for"
-        SELECT =                             "select"
-        THEN =                               "then"
-        RESCUE =                             "rescue"
-        ENSURE =                             "ensure"
-        IS_A_QUESTION =                      "is_a?"
-        ALIAS =                              "alias"
-        SIZEOF =                             "sizeof"
-        NIL_QUESTION =                       "nil?"
-        IN =                                 "in"
-        WITH =                               "with"
-        SELF =                               "self"
-        SUPER =                              "super"
-        PRIVATE =                            "private"
-        ASM =                                "asm"
-        PROTECTED =                          "protected"
-        UNINITIALIZED =                      "uninitialized"
-        INSTANCE_SIZEOF =                    "instance_sizeof"
-        ABSTRACT =                           "abstract"
-        POINTEROF =                          "pointerof"
-
-        BREAK =                              "break"
-        INITIALIZE =                         "initialize"
-        NEW =                                "new"
-        LOOP =                               "loop"
-        PREPEND =                            "prepend"
-        FAIL =                               "fail"
-        GETTER =                             "getter"
-        SETTER =                             "setter"
+        USING =                              "using"
         PROPERTY =                           "property"
+        RECORD =                             "record"
         CATCH =                              "catch"
-        THROW =                              "throw"
-        ABORT =                              "abort"
-        AT_EXIT =                            "at_exit"
-        AUTOLOAD =                           "autoload"
-        BINDING =                            "binding"
-        CALLCC =                             "callcc"
-         CALLER =                            "caller"
-        CALLER_LOCATIONS =                   "caller_locations"
-        CHOMP =                              "chomp"
-        CHOP =                               "chop"
-        EVAL =                               "eval"
-        EXEC =                               "exec"
-        EXIT =                               "exit"
-        EXIT_BANG =                          "exit!"
-        FORK =                               "fork"
-        FORMAT =                             "format"
-        GETS =                               "gets"
-        GLOBAL_VARIABLES =                   "global_variables"
-        GSUB =                               "gsub"
-        ITERATOR =                           "iterator"
-        LAMBDA =                             "lambda"
-        LOAD =                               "load"
-        LOCAL_VARIABLES =                    "local_variables"
-        OPEN =                               "open"
-        P =                                  "p"
-        PRINT =                              "print"
-        PRINTF =                             "printf"
-        PROC =                               "proc"
-        PUTC =                               "putc"
-        PUTS =                               "puts"
-        RAND =                               "rand"
-        READLINE =                           "readline"
-        READLINES =                          "readlines"
-        SET_TRACE_FUNC =                     "set_trace_func"
-        SLEEP =                              "sleep"
-        SPAWN =                              "spawn"
-        SPRINTF =                            "sprintf"
-        SRAND =                              "srand"
-        SUB =                                "sub"
-        SYSCALL =                            "syscall"
-        SYSTEM =                             "system"
-        TEST =                               "test"
-        TRACE_VAR =                          "trace_var"
-        TRAP =                               "trap"
-        UNTRACE_VAR =                        "untrace_var"
-        WARN =                               "warn"
-
         COMPONENT =                          "component"
+        MODULE =                             "module"
         STORE =                              "store"
         STATE =                              "state"
         PROPERTY =                           "property"
         NEXT =                               "next"
         WHERE =                              "where"
+        FUN =                                "fun"
+        GET =                                "get"
+        USE =                                "use"
+        ENUM =                               "enum"
+        ROUTES =                             "routes"
         HTML_CLOSE_END =                      "\\>"
         HTML_CLOSE =                          "</"
-
         LINE_COMMENT =                       'regexp:#.*'
         STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
         NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
-        CHAR_LITERAL   =                     "regexp:('([^'\\]|\\.)*')"
 
         IDENT               = "regexp:\w+"
         space               = 'regexp:\s+'
@@ -223,7 +98,12 @@ statement ::=
   'component' IDENT '{' [compositeStatement] '}'
 | 'module' IDENT '{' [compositeStatement] '}'
 | 'store' IDENT '{' [compositeStatement] '}'
+| 'record' itemType '{' [recordItems] '}'
+| 'routes' '{' [compositeStatement] '}'
 
+private recordItems ::= recordItem [recordItems]
+
+recordItem ::= IDENT ':' itemType ','?
 
 expression ::=
   mlhs '=' mrhs
@@ -238,19 +118,20 @@ lhs ::=
    | primaries '[' [args] ']'
    | primaries '.' IDENT
 
-mrhs ::= args [',' '*' arg] | '*' arg
+mrhs ::= args [',' arg] | arg
 
 private args ::= arg [',' args]
 
-private arg ::= lhs '=' arg
+private arg ::=
+   lhs '=' arg
   | lhs opAsgn arg
-  | ('..' | '...' | '+'  | '-'  | '*'  | '/'  | '%'  | '**'  | '|'  | '^'
-    | '&' | '<=>' | '>'  | '>=' | '<'  | '<=' | '==' | '===' | '!=' | '='
-    | '!' | '~'   | '<<' |  '>>'| '&&' | '||') arg
+  | ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
+  | '&'  | '>'  | '>=' | '<'  | '<=' | '==' | '!=' | '=' | '|>'
+  | '!'  | '&&' | '||') arg
   | primaries
   | htmls
 
-opAsgn ::= '+='|'-='|'*='|'/='|'%='|'**=' |'&='|'|='|'ˆ='|'<<='|'>>=' |'&&='|'||='
+private opAsgn ::= '+'|'-'|'*'|'/'|'%'
 
 private primaries ::= primary [primaries]
 
@@ -261,6 +142,7 @@ private primary ::= '(' compositeStatement ')'
 | '[' [args] ']'
 | '{' [args] '}'
 | '[]'
+| '()' ':'?
 | '[' [args [',']] ']'
 | function
 | 'state' IDENT ':' itemType
@@ -271,16 +153,21 @@ private primary ::= '(' compositeStatement ')'
 | 'catch'
 | '=>'
 | 'where'
+| 'use' itemType '{' [compositeStatement] '}'
 
 //| 'if' expression 'then' compositeStatement ['elsif' expression 'then' compositeStatement] ['else' compositeStatement] 'end'
 //| ('case'| 'select') [compositeStatement] 'when' whenArgs 'then' compositeStatement ['when' whenArgs 'then' compositeStatement] ['else' compositeStatement] 'end'
 
 function ::=
     'fun' IDENT [argDecl] ':' itemType '{' [compositeStatement] '}'
+  | 'get' IDENT ':' itemType '{' [compositeStatement] '}'
 
 argDecl ::= '(' argList ')' | argList
 
-itemType ::= IDENT
+private itemParts ::= itemPart [itemParts]
+private itemPart ::= IDENT ['.'] ['(' itemParts ')']
+
+itemType ::= itemParts
 
 argList ::= IDENT ':' itemType (',' IDENT ':' itemType)*
 
