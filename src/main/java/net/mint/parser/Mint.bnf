@@ -87,6 +87,7 @@
         ROUTES =                             "routes"
         CONNECT =                            "connect"
         EXPOSING =                           "exposing"
+        STYLE =                              "style"
         LINE_COMMENT =                       'regexp:/\*.*'
         STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
         NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
@@ -165,7 +166,7 @@ private primaries ::= primary [primaries]
 private primary ::=
  function
 | htmls
-| '(' compositeStatement ')'
+| '(' args ')'
 | recordAssignments
 | literal
 | variable
@@ -175,7 +176,7 @@ private primary ::=
 | '[]'
 | '()' ':'?
 | '[' [args [',']] ']'
-| 'if'
+| 'if' '(' compositeStatement ')'
 | 'else'
 | 'state' IDENT ':' itemType
 | 'property' IDENT ':' itemType
@@ -196,10 +197,14 @@ private primary ::=
 | 'encode'
 | '`'
 | enum itemType '{' [args] '}'
-
+| 'case' '(' compositeStatement ')'
+| 'style' IDENT '{' cssItems '}'
 
 private exports ::= export [',' exports]
 private export ::= IDENT
+
+private cssItems ::= CssStatement [cssItems]
+
 
 useProvider ::=
   'use' itemType '{' [recordAssignments] '}'
@@ -207,9 +212,6 @@ useProvider ::=
 private recordAssignments ::= recordAssignment [ ',' recordAssignments]
 
 private recordAssignment ::= (IDENT '|')? IDENT '=' compositeStatement
-
-//| 'if' expression 'then' compositeStatement ['elsif' expression 'then' compositeStatement] ['else' compositeStatement] 'end'
-//| ('case'| 'select') [compositeStatement] 'when' whenArgs 'then' compositeStatement ['when' whenArgs 'then' compositeStatement] ['else' compositeStatement] 'end'
 
 function ::=
     'fun' IDENT argDecl? ':' itemType '{' [compositeStatement] '}'
@@ -254,7 +256,6 @@ tagOpen ::= '<' tagName attrList? '>'
 tagEmpty ::= '<' tagName attrList? '/' '>'
 tagClose ::= '<' '/' tagName '>'
 mintTag ::= '<' '{' (literal | compositeStatement) '}' '>'
-//mintComponent ::= '<' tagName attrList? '{' (literal | compositeStatement) '}' '/' '>'
 
 
 attrList ::= (attr)*
@@ -265,7 +266,79 @@ attrComponent ::= attrName '=' '{'? (IDENT | function | literal ) '}'?
 attrSingleQuoted ::= attrName '=' "'" IDENT "'"
 attrDoubleQuoted ::= attrName '=' '"' IDENT '"'
 
-tagName ::= IDENT
+tagName ::= IDENT ('::' IDENT)?
 attrName ::= IDENT
+
+
+// CSS
+CssStatement
+    ::=
+    CssRuleSet
+    | CssAtRule
+    | ';'
+
+
+CssAtRule
+    ::= '@' CssAny* [CssBlock | ';']
+
+
+CssBlock
+    ::= '{' (CssAny | CssBlock | '@' | ';') '}'
+
+
+CssRuleSet
+//    ::= CssSelector? '{' CssDeclaration? [';' CssDeclaration?] '}'
+//    ::=  CssDeclaration [';' CssDeclaration]
+    ::= ['&:' CssProperty '{'] CssDeclaration [';' CssDeclaration] '}'?
+
+
+//CssComponent
+//  ::= CssProperty ':' '{' CssProperty '}' ';'
+
+
+//CssSelector
+//    ::= CssAny+
+
+
+CssDeclaration
+    ::= CssProperty ':' ( CssValues | '{' IDENT '}' )
+
+
+CssProperty
+    ::= IDENT ('-' IDENT)?
+
+
+private CssValues ::= CssValue [CssValue]
+
+CssValue
+    ::= CssAny | CssBlock | '@'
+
+
+private literals ::= literal [literals]
+private ids ::= IDENT [ids]
+
+CssAny
+    ::=      ids
+    | literals '%'?
+//        |   NUMBER
+//        |   PERCENTAGE
+//        |   DIMENSION
+//        |   STRING
+//        |   DELIM
+//        |   URI
+        |   '#' IDENT
+        |   '-' IDENT
+//        |   UNICODE-RANGE
+        |   '~' '='
+        |   '|' '='
+        |   IDENT '(' CssAny* ')'
+        |   '(' CssAny* ')'
+        |   '[' CssAny* ']'
+
+
+
+
+
+
 
 
