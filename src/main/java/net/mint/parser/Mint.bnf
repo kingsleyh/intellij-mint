@@ -110,6 +110,19 @@ statement ::=
 | 'provider' itemType ':' itemType '{' [compositeStatement] '}'
 | htmls
 
+private keywords ::=
+  'component'
+ | 'module'
+ | 'store'
+ | 'record'
+ | 'routes'
+ | 'provider'
+ | 'state'
+ | 'property'
+ | 'void'
+ | 'encode'
+ | 'decode'
+
 private recordItems ::= recordItem [recordItems]
 
 recordItem ::= IDENT ':' itemType ('using' STRING_LITERAL)? ','?
@@ -145,6 +158,7 @@ private opAsgn ::= '+'|'-'|'*'|'/'|'%'
 private primaries ::= primary [primaries]
 
 private primary ::= '(' compositeStatement ')'
+| recordAssignments
 | literal
 | variable
 | '::' IDENT
@@ -157,6 +171,7 @@ private primary ::= '(' compositeStatement ')'
 | 'state' IDENT ':' itemType
 | 'property' IDENT ':' itemType
 | 'do' '{' [compositeStatement] '}'
+| 'try' '{' [compositeStatement] '}'
 | ('.' | '::') operation ['(' [callArgs] ')']
 | 'next'
 | 'catch'
@@ -173,7 +188,7 @@ useProvider ::=
 
 private recordAssignments ::= recordAssignment [ ',' recordAssignments]
 
-private recordAssignment ::= IDENT '=' compositeStatement
+private recordAssignment ::= (IDENT '|')? IDENT '=' compositeStatement
 
 //| 'if' expression 'then' compositeStatement ['elsif' expression 'then' compositeStatement] ['else' compositeStatement] 'end'
 //| ('case'| 'select') [compositeStatement] 'when' whenArgs 'then' compositeStatement ['when' whenArgs 'then' compositeStatement] ['else' compositeStatement] 'end'
@@ -215,11 +230,12 @@ private operation ::= IDENT ['!' | '?']
 
 // HTML
 private htmls ::= html [htmls]
-html ::= tagOpen | tagEmpty | tagClose
+html ::= tagOpen | tagEmpty | tagClose | mintTag
 
 tagOpen ::= '<' tagName attrList? '>'
 tagEmpty ::= '<' tagName attrList? '/' '>'
 tagClose ::= '</' tagName '>'
+mintTag ::= '<' '{' [compositeStatement] '}' '>'
 
 
 attrList ::= (attr)*
@@ -232,4 +248,5 @@ attrDoubleQuoted ::= attrName '=' '"' IDENT '"'
 
 tagName ::= IDENT
 attrName ::= IDENT
+
 

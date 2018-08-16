@@ -3,10 +3,10 @@ record Record {
 }
 
 component RecordUpdate {
-  property record : Record = { name = "Doe" }
+  property recordx : Record = { name = "Doe" }
 
   fun test : Record {
-    { record | name = "John" }
+    { recordx | name = "John" }
   }
 
   fun render : Html {
