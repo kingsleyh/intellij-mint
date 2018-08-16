@@ -103,6 +103,8 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "void"                  { return VOID; }
   "provider"              { return PROVIDER; }
   "routes"                { return ROUTES; }
+  "connect"               { return CONNECT; }
+  "exposing"              { return EXPOSING; }
 
   {LOWER_CASE_IDENTIFIER} { return IDENT; }
     {CAPITALISED_IDENTIFIER} {

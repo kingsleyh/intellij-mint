@@ -16,6 +16,7 @@
     generateTokenAccessors=false
 
     tokens = [
+        BACKTICK =                           "`"
         LEFT_BRACE =                         "{"
         RIGHT_BRACE =                        "}"
         LEFT_PAREN =                         "("
@@ -84,6 +85,8 @@
         VOID =                               "void"
         PROVIDER =                           "provider"
         ROUTES =                             "routes"
+        CONNECT =                            "connect"
+        EXPOSING =                           "exposing"
         LINE_COMMENT =                       'regexp:/\*.*'
         STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
         NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
@@ -159,7 +162,10 @@ private opAsgn ::= '+'|'-'|'*'|'/'|'%'
 
 private primaries ::= primary [primaries]
 
-private primary ::= '(' compositeStatement ')'
+private primary ::=
+ function
+| htmls
+| '(' compositeStatement ')'
 | recordAssignments
 | literal
 | variable
@@ -169,24 +175,30 @@ private primary ::= '(' compositeStatement ')'
 | '[]'
 | '()' ':'?
 | '[' [args [',']] ']'
-| function
+| 'if'
+| 'else'
 | 'state' IDENT ':' itemType
 | 'property' IDENT ':' itemType
 | 'do' '{' [compositeStatement] '}'
 | 'try' '{' [compositeStatement] '}'
 | ('.' | '::') operation ['(' [callArgs] ')']
-| 'next'
-| 'catch'
+| 'next' '{' [args] '}'
+| 'catch' '{' [compositeStatement] '}'
 | '=>'
-| 'where'
-| 'when'
+| 'where' '{' [compositeStatement] '}'
+| 'when' '{' [compositeStatement] '}'
 | 'with'
-| 'finally'
+| 'finally' '{' [compositeStatement] '}'
 | useProvider
 | 'void'
+| 'connect' itemType 'exposing' '{' exports '}'
 | 'decode' IDENT 'as' itemType
 | 'encode'
+| '`'
 
+
+private exports ::= export [',' exports]
+private export ::= IDENT
 
 useProvider ::=
   'use' itemType '{' [recordAssignments] '}'
@@ -235,19 +247,20 @@ private operation ::= IDENT ['!' | '?']
 
 // HTML
 private htmls ::= html [htmls]
-html ::= tagOpen | tagEmpty | tagClose | mintTag
+html ::= mintTag | tagOpen | tagEmpty | tagClose
 
 tagOpen ::= '<' tagName attrList? '>'
 tagEmpty ::= '<' tagName attrList? '/' '>'
-tagClose ::= '</' tagName '>'
-mintTag ::= '<' '{' [compositeStatement] '}' '>'
+tagClose ::= '<' '/' tagName '>'
+mintTag ::= '<' '{' (literal | compositeStatement) '}' '>'
+//mintComponent ::= '<' tagName attrList? '{' (literal | compositeStatement) '}' '/' '>'
 
 
 attrList ::= (attr)*
-attr ::= attrEmpty | attrUnquoted | attrSingleQuoted | attrDoubleQuoted
+attr ::= attrComponent | attrEmpty | attrSingleQuoted | attrDoubleQuoted
 
 attrEmpty ::= attrName
-attrUnquoted ::= attrName '=' IDENT
+attrComponent ::= attrName '=' '{'? (IDENT | function | literal ) '}'?
 attrSingleQuoted ::= attrName '=' "'" IDENT "'"
 attrDoubleQuoted ::= attrName '=' '"' IDENT '"'
 
