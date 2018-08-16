@@ -36,6 +36,7 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
 <YYINITIAL> {
   {WHITE_SPACE}           { return WHITE_SPACE; }
   {LINE_COMMENT}          { return LINE_COMMENT; }
+  "`"                     { return BACKTICK; }
   "{"                     { return LEFT_BRACE; }
   "}"                     { return RIGHT_BRACE; }
   "("                     { return LEFT_PAREN; }

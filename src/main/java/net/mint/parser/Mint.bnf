@@ -183,7 +183,7 @@ private primary ::=
 | 'try' '{' [compositeStatement] '}'
 | ('.' | '::') operation ['(' [callArgs] ')']
 | 'next' '{' [args] '}'
-| 'catch' '{' [compositeStatement] '}'
+| 'catch' itemType '=>' IDENT '{' [compositeStatement] '}'
 | '=>'
 | 'where' '{' [compositeStatement] '}'
 | 'when' '{' [compositeStatement] '}'
@@ -195,6 +195,7 @@ private primary ::=
 | 'decode' IDENT 'as' itemType
 | 'encode'
 | '`'
+| enum itemType '{' [args] '}'
 
 
 private exports ::= export [',' exports]
