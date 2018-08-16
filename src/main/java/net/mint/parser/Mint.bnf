@@ -74,6 +74,8 @@
         PROPERTY =                           "property"
         NEXT =                               "next"
         WHERE =                              "where"
+        WITH =                               "with"
+        FINALLY                              "finally"
         WHEN =                               "when"
         FUN =                                "fun"
         GET =                                "get"
@@ -178,9 +180,12 @@ private primary ::= '(' compositeStatement ')'
 | '=>'
 | 'where'
 | 'when'
+| 'with'
+| 'finally'
 | useProvider
 | 'void'
 | 'decode' IDENT 'as' itemType
+| 'encode'
 
 
 useProvider ::=

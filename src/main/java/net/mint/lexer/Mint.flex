@@ -94,6 +94,8 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "next"                  { return NEXT; }
   "where"                 { return WHERE; }
   "when"                  { return WHEN; }
+  "with"                  { return WITH; }
+  "finally"               { return FINALLY; }
   "fun"                   { return FUN; }
   "get"                   { return GET; }
   "use"                   { return USE; }

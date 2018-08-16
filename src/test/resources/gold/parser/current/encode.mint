@@ -4,7 +4,7 @@ record Test {
 }
 
 module Test {
-  fun encode : Object {
+  fun encoder : Object {
     encode { name = "Hello", age = 20 }
   }
 }
