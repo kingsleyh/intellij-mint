@@ -232,10 +232,6 @@ itemType ::= itemParts
 argList ::= IDENT ':' itemType (',' IDENT ':' itemType)*
 
 private callArgs ::= args
-//       | args [',' assocs] [',' '*' args] [',' '&' arg]
-//       | assocs [',' '*' args] [',' '&' arg]
-//       | '*' arg [',' '&' arg] | '&' arg
-
 
 literal ::= (TRUE
        | FALSE
@@ -253,8 +249,8 @@ private operation ::= IDENT ['!' | '?']
 private htmls ::= html [htmls]
 html ::= mintTag | tagOpen | tagEmpty | tagClose
 
-tagOpen ::= '<' tagName attrList? '>'
-tagEmpty ::= '<' tagName attrList? '/' '>'
+tagOpen ::= '<' tagName? attrList? '>'
+tagEmpty ::= '<' tagName? attrList? '/' '>'
 tagClose ::= '<' '/' tagName '>'
 mintTag ::= '<' '{' (literal | compositeStatement) '}' '>'
 
@@ -263,9 +259,10 @@ attrList ::= (attr)*
 attr ::= attrComponent | attrEmpty | attrSingleQuoted | attrDoubleQuoted
 
 attrEmpty ::= attrName
-attrComponent ::= attrName '=' '{'? (IDENT | function | literal ) '}'?
-attrSingleQuoted ::= attrName '=' "'" IDENT "'"
-attrDoubleQuoted ::= attrName '=' '"' IDENT '"'
+attrComponent ::= attrName '=' '{'? (IDENT | function | literal) '}'?
+
+//attrSingleQuoted ::= attrName '=' "'" IDENT "'"
+attrDoubleQuoted ::= attrName? '=' STRING_LITERAL
 
 tagName ::= IDENT ('::' IDENT)?
 attrName ::= IDENT
