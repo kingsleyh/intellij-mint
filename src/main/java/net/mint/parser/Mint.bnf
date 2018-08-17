@@ -275,7 +275,7 @@ CssStatement
     ::=
     CssRuleSet
     | CssAtRule
-    | ';'
+//    | ';'
 
 
 CssAtRule
@@ -287,21 +287,16 @@ CssBlock
 
 
 CssRuleSet
-//    ::= CssSelector? '{' CssDeclaration? [';' CssDeclaration?] '}'
-//    ::=  CssDeclaration [';' CssDeclaration]
-    ::= ['&:' CssProperty '{'] CssDeclaration [';' CssDeclaration] '}'?
+    ::=  CssDeclaration [';' CssDeclaration]
+    | '&:' CssProperty '{' CssDeclarations '}'
 
 
-//CssComponent
-//  ::= CssProperty ':' '{' CssProperty '}' ';'
 
 
-//CssSelector
-//    ::= CssAny+
-
+CssDeclarations ::= CssDeclaration [CssDeclarations]
 
 CssDeclaration
-    ::= CssProperty ':' ( CssValues | '{' IDENT '}' )
+    ::= CssProperty ':' ( CssValues | '{' IDENT '}' ) ';'
 
 
 CssProperty

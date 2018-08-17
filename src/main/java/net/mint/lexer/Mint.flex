@@ -106,6 +106,7 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "routes"                { return ROUTES; }
   "connect"               { return CONNECT; }
   "exposing"              { return EXPOSING; }
+  "style"                 { return STYLE; }
 
   {LOWER_CASE_IDENTIFIER} { return IDENT; }
     {CAPITALISED_IDENTIFIER} {
