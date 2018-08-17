@@ -139,14 +139,14 @@ expression ::=
 
 mlhs ::= mlhsItem ',' [mlhsItem (',' mlhsItem)*] [ '*' lhs] | '*' lhs
 
-mlhsItem ::= lhs | '(' mlhs ')'
+private mlhsItem ::= lhs | '(' mlhs ')'
 
-lhs ::=
+private lhs ::=
    variable
    | primaries '[' [args] ']'
    | primaries '.' IDENT
 
-mrhs ::= args [',' arg] | arg
+private mrhs ::= args [',' arg] | arg
 
 private args ::= arg [',' args]
 
@@ -219,7 +219,7 @@ function ::=
   | 'get' IDENT ':' itemType '{' [compositeStatement] '}'
   | '(' (IDENT ':' itemType)? ')' ':' itemType '=>' '{' [compositeStatement] '}'
 
-argDecl ::= '(' argList ')' | '()' | argList
+private argDecl ::= '(' argList ')' | '()' | argList
 
 private itemParts ::= itemPart [itemParts]
 private itemPart ::= IDENT ['.'] ['(' manyParts ')']
@@ -249,20 +249,24 @@ private operation ::= IDENT ['!' | '?']
 private htmls ::= html [htmls]
 html ::= mintTag | tagOpen | tagEmpty | tagClose
 
-tagOpen ::= '<' tagName? attrList? '>'
-tagEmpty ::= '<' tagName? attrList? '/' '>'
-tagClose ::= '<' '/' tagName '>'
-mintTag ::= '<' '{' (literal | compositeStatement) '}' '>'
+private tagOpen ::= '<' tagName? attrList? '>'
+private tagEmpty ::= '<' tagName? attrList? '/' '>'
+private tagClose ::= '<' '/' tagName '>'
+private mintTag ::= '<' '{' (literal | compositeStatement) '}' '>'
 
 
-attrList ::= (attr)*
-attr ::= attrComponent | attrEmpty | attrSingleQuoted | attrDoubleQuoted
+private attrList ::= (attr)*
+private attr ::= attrComponent | attrEmpty | attrDoubleQuoted
 
-attrEmpty ::= attrName
-attrComponent ::= attrName '=' '{'? (IDENT | function | literal) '}'?
+private tagValues ::= tagValue [tagValues]
+private tagValue ::= IDENT
+      | function
+      | literal
+      | arg
 
-//attrSingleQuoted ::= attrName '=' "'" IDENT "'"
-attrDoubleQuoted ::= attrName? '=' STRING_LITERAL
+private attrEmpty ::= attrName
+private attrComponent ::= attrName '=' '{'? tagValues '}'?
+private attrDoubleQuoted ::= attrName? '=' STRING_LITERAL
 
 tagName ::= IDENT ('::' IDENT)?
 attrName ::= IDENT
