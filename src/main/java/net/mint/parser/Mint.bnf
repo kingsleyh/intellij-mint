@@ -198,13 +198,14 @@ private primary ::=
 | '`'
 | enum itemType '{' [args] '}'
 | 'case' '(' compositeStatement ')'
-| 'style' IDENT '{' cssItems '}'
+| styles
+
+
+private styles ::= aStyle [styles]
+private aStyle ::= 'style' IDENT '{' CssStatement '}'
 
 private exports ::= export [',' exports]
 private export ::= IDENT
-
-private cssItems ::= CssStatement [cssItems]
-
 
 useProvider ::=
   'use' itemType '{' [recordAssignments] '}'
@@ -271,69 +272,34 @@ attrName ::= IDENT
 
 
 // CSS
-CssStatement
-    ::=
-    CssRuleSet
-    | CssAtRule
-    | ';'
+CssStatement ::=
+     CssDeclarations
+
+private CssBlocks ::= CssBlock [CssBlocks]
+private CssBlock ::=
+   '&' ':'? '::'? CssProperty (':' '::'? CssProperty)? ','? ['{' CssDeclarations '}']
+
+private CssDeclarations ::= CssDeclaration [CssDeclarations]
+private CssDeclaration ::=
+     CssProperty ':' CssValues ';'
+     | CssBlocks
 
 
-CssAtRule
-    ::= '@' CssAny* [CssBlock | ';']
+private ids ::= id [ids]
+private id ::= IDENT | '-' | '::'
 
+CssProperty ::= ids
 
-CssBlock
-    ::= '{' (CssAny | CssBlock | '@' | ';') '}'
-
-
-CssRuleSet
-    ::=  CssDeclaration [';' CssDeclaration]
-    | '&' ':'? CssProperty '{' CssDeclarations '}'
-
-
-
-
-CssDeclarations ::= CssDeclaration [CssDeclarations]
-
-CssDeclaration
-    ::= CssProperty ':' CssValues
-
-
-CssProperty
-    ::= IDENT ('-' IDENT)?
-
-
-private CssValues ::= CssValue [('{' IDENT '}')? CssValue]
-
-CssValue
-    ::= CssAny | CssBlock | '@'
-
-
-private literals ::= literal [literals]
-private ids ::= IDENT [ids]
-
-CssAny
-    ::=      ids
-    | literals '%'?
-//        |   NUMBER
-//        |   PERCENTAGE
-//        |   DIMENSION
-//        |   STRING
-//        |   DELIM
-//        |   URI
-        |   '#' IDENT
-        |   '-' IDENT
-//        |   UNICODE-RANGE
-        |   '~' '='
-        |   '|' '='
-        |   IDENT '(' CssAny* ')'
-        |   '(' CssAny* ')'
-        |   '[' CssAny* ']'
-
-
-
-
-
-
-
-
+private CssValues ::= CssValue [CssValues]
+CssValue ::= IDENT
+         | literal
+         | '%'
+         | '('
+         | ')'
+         | '-'
+         | '#'
+         | '.'
+         | ':'
+         | ','
+         | "'"
+         | '{' (IDENT | literal) '}'
