@@ -275,7 +275,7 @@ CssStatement
     ::=
     CssRuleSet
     | CssAtRule
-//    | ';'
+    | ';'
 
 
 CssAtRule
@@ -288,7 +288,7 @@ CssBlock
 
 CssRuleSet
     ::=  CssDeclaration [';' CssDeclaration]
-    | '&:' CssProperty '{' CssDeclarations '}'
+    | '&' ':'? CssProperty '{' CssDeclarations '}'
 
 
 
@@ -296,14 +296,14 @@ CssRuleSet
 CssDeclarations ::= CssDeclaration [CssDeclarations]
 
 CssDeclaration
-    ::= CssProperty ':' ( CssValues | '{' IDENT '}' ) ';'
+    ::= CssProperty ':' CssValues
 
 
 CssProperty
     ::= IDENT ('-' IDENT)?
 
 
-private CssValues ::= CssValue [CssValue]
+private CssValues ::= CssValue [('{' IDENT '}')? CssValue]
 
 CssValue
     ::= CssAny | CssBlock | '@'

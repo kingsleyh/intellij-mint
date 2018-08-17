@@ -1,6 +1,6 @@
 component HtmlAttribute {
-  fun render : Html {
-    <div title={"Hello " + "there!"}>
-    </div>
-  }
-}
+   fun render : Html {
+     <div title={"Hello " + "there!"}>
+     </div>
+   }
+ }
