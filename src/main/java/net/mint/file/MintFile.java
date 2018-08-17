@@ -20,7 +20,7 @@ public class MintFile extends PsiFileBase {
 
     @Override
     public String toString() {
-        return "Crystal File";
+        return "Mint File";
     }
 
     @Override
