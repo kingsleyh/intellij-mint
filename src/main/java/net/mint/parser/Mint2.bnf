@@ -92,112 +92,157 @@
         STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
         NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
 
-        CAPITALISED_IDENT   = "regexp:[A-Z]+\w*"
-        LOWER_IDENT         = "regexp:\w+"
+        IDENT               = "regexp:\w+"
         space               = 'regexp:\s+'
     ]
 }
 
-program ::= statements
+mintFile ::= item_*
 
-statements ::= statement [statements]
+private item_ ::= (statements | expressions)
+
+private compositeStatement ::= (statements | expressions)
+
+private statements ::= statement [statements]
+
+private expressions ::= expression [expressions]
 
 statement ::=
-  'component' ofType '{' statements '}'
- | recordAssignments
- | 'store' ofType '{' statements '}'
- | 'fun' LOWER_IDENT '('? args? ')'? ':' ofType '{' statements '}'
- | 'get' LOWER_IDENT ':' ofType '{' statements '}'
- | 'if' '(' statements ')' '{' statements '}' 'else' '{' statements '}'
- | '(' recordItems? ')' ':' ofType '=>' '{' statements '}'
- | 'do' '{' statements '}'
- | 'try' '{' statements '}'
- | 'next' '{' statements '}'
- | 'routes' '{' statements '}'
- | 'module' ofType '{' statements '}'
- | 'record' ofType '{' recordItems '}'
- |  calls
- | expressions
- | routeDeclarations
- | 'connect' ofType 'exposing' '{' exports '}'
- | '[]'
- | '[' [callArgs] ']'
- | 'catch' ofType '=>' LOWER_IDENT '{' statements '}'
- | 'void'
- | 'state' LOWER_IDENT ':' ofType '=' statement
- | 'property' LOWER_IDENT ':' ofType '=' statement
- | htmls
- | styles
- | operators
- | ops
- | literal
- | useProvider
+  'component' itemType '{' [compositeStatement] '}'
+| 'module' itemType '{' [compositeStatement] '}'
+| 'store' itemType '{' [compositeStatement] '}'
+| 'record' itemType '{' [recordItems] '}'
+| 'routes' '{' [compositeStatement] '}'
+| 'provider' itemType ':' itemType '{' [compositeStatement] '}'
+| htmls
 
+private keywords ::=
+  'component'
+ | 'module'
+ | 'store'
+ | 'record'
+ | 'routes'
+ | 'provider'
+ | 'state'
+ | 'property'
+ | 'void'
+ | 'encode'
+ | 'decode'
+
+private recordItems ::= recordItem [recordItems]
+
+recordItem ::= IDENT ':' itemType ('using' STRING_LITERAL)? ','?
+
+expression ::=
+  mlhs '=' mrhs
+  | arg
+
+mlhs ::= mlhsItem ',' [mlhsItem (',' mlhsItem)*] [ '*' lhs] | '*' lhs
+
+private mlhsItem ::= lhs | '(' mlhs ')'
+
+private lhs ::=
+   variable
+   | primaries '[' [args] ']'
+   | primaries '.' IDENT
+
+private mrhs ::= args [',' arg] | arg
+
+private args ::= arg [',' args]
+
+private arg ::=
+   lhs '=' arg
+  | lhs opAsgn arg
+  | ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
+  | '&'  | '>'  | '>=' | '<'  | '<=' | '==' | '!=' | '=' | '|>'
+  | '!'  | '&&' | '||') arg
+  | primaries
+
+
+private opAsgn ::= '+'|'-'|'*'|'/'|'%'
+
+private primaries ::= primary [primaries]
+
+private primary ::=
+ function
+| htmls
+| '(' args ')'
+| recordAssignments
+| literal
+| variable
+| '::' IDENT
+| '[' [args] ']'
+| '{' [args] '}'
+| '[]'
+| '()' ':'?
+| '[' [args [',']] ']'
+| 'if' '(' compositeStatement ')'
+| 'else'
+| 'state' IDENT ':' itemType
+| 'property' IDENT ':' itemType
+| 'do' '{' [compositeStatement] '}'
+| 'try' '{' [compositeStatement] '}'
+| ('.' | '::') operation ['(' [callArgs] ')']
+| 'next' '{' [args] '}'
+| 'catch' itemType '=>' IDENT '{' [compositeStatement] '}'
+| '=>'
+| 'where' '{' [compositeStatement] '}'
+| 'when' '{' [compositeStatement] '}'
+| 'with'
+| 'finally' '{' [compositeStatement] '}'
+| useProvider
+| 'void'
+| 'connect' itemType 'exposing' '{' exports '}'
+| 'decode' IDENT 'as' itemType
+| 'encode'
+| '`'
+| enum itemType '{' [args] '}'
+| 'case' '(' compositeStatement ')'
+| styles
+
+
+private styles ::= aStyle [styles]
+private aStyle ::= 'style' IDENT '{' CssStatement '}'
+
+private exports ::= export [',' exports]
+private export ::= IDENT
 
 useProvider ::=
-  'use' ofType '{' [recordAssignments] '}'
+  'use' itemType '{' [recordAssignments] '}'
 
 private recordAssignments ::= recordAssignment [ ',' recordAssignments]
 
-private recordAssignment ::= (LOWER_IDENT '|')? LOWER_IDENT '=' statement
+private recordAssignment ::= (IDENT '|')? IDENT '=' compositeStatement
 
-calls ::= call ['|>'? calls]
-call ::= ofType? '.'? LOWER_IDENT '(' callArgs? ')'
-        | ofType? '.'? LOWER_IDENT
+function ::=
+    'fun' IDENT argDecl? ':' itemType '{' [compositeStatement] '}'
+  | 'get' IDENT ':' itemType '{' [compositeStatement] '}'
+  | '(' (IDENT ':' itemType)? ')' ':' itemType '=>' '{' [compositeStatement] '}'
 
-private styles ::= aStyle [styles]
-private aStyle ::= 'style' LOWER_IDENT '{' CssStatement '}'
+private argDecl ::= '(' argList ')' | '()' | argList
 
-operators ::= ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
-                   | '&'  | '>'  | '>=' | '<'  | '<=' | '==' | '!=' | '=' | '|>'
-                   | '!')
+private itemParts ::= itemPart [itemParts]
+private itemPart ::= IDENT ['.'] ['(' manyParts ')']
 
-ops ::= '&&' | '||'
+private manyParts ::= singlePart [manyParts]
+private singlePart ::= itemPart [',']
 
-private exports ::= export [',' exports]
-private export ::= LOWER_IDENT
+itemType ::= itemParts
 
-private recordItems ::= recordItem [recordItems]
-recordItem ::= LOWER_IDENT ':' ofType ('using' STRING_LITERAL)? ','?
+argList ::= IDENT ':' itemType (',' IDENT ':' itemType)*
 
-routeDeclarations ::= routeDeclaration [routeDeclarations]
-routeDeclaration ::=
-   '/' | '*' | LOWER_IDENT | '{' statement '}'
-
-expressions ::= expression [ops? expressions]
-expression ::=
-  lhs '=' rhs
-  | lhs operators rhs
-
-
-
-lhs ::=
- LOWER_IDENT | literal
-
-rhs ::=
- LOWER_IDENT
- | statement
-
-
-
-ofType ::= typeParts [ofType ]
-typeParts ::=
-   CAPITALISED_IDENT
-   | '.' | ','
-   | '(' ofType ')'
+private callArgs ::= args
 
 literal ::= (TRUE
        | FALSE
        | NUMBER_LITERAL
        | STRING_LITERAL)
 
-args ::= arg [',' args]
-arg ::=
-  LOWER_IDENT ':' ofType
+variable ::= varName
 
+varName ::= IDENT
 
-callArgs ::= callArg [',' callArgs]
-callArg ::= statements
+private operation ::= IDENT ['!' | '?']
 
 
 // HTML
@@ -207,22 +252,24 @@ html ::= mintTag | tagOpen | tagEmpty | tagClose
 private tagOpen ::= '<' tagName? attrList? '>'
 private tagEmpty ::= '<' tagName? attrList? '/' '>'
 private tagClose ::= '<' '/' tagName '>'
-private mintTag ::= '<' '{' statement '}' '>'
+private mintTag ::= '<' '{' (literal | compositeStatement) '}' '>'
 
 
 private attrList ::= (attr)*
-private attr ::= attrDoubleQuoted | attrComponent | attrEmpty
+private attr ::= attrComponent | attrEmpty | attrDoubleQuoted
 
 private tagValues ::= tagValue [tagValues]
-private tagValue ::= LOWER_IDENT
-      | statement
+private tagValue ::= IDENT
+      | function
+      | literal
+      | arg
 
 private attrEmpty ::= attrName
 private attrComponent ::= attrName '=' '{'? tagValues '}'?
 private attrDoubleQuoted ::= attrName? '=' STRING_LITERAL
 
-tagName ::= LOWER_IDENT ('::' LOWER_IDENT)?
-attrName ::= LOWER_IDENT
+tagName ::= IDENT ('::' IDENT)?
+attrName ::= IDENT
 
 
 // CSS
@@ -240,20 +287,20 @@ private CssDeclaration ::=
 
 
 private ids ::= id [ids]
-private id ::= LOWER_IDENT | '-' | '::'
+private id ::= IDENT | '-' | '::'
 
 CssProperty ::= ids
 
 private CssValues ::= CssValue [CssValues]
-CssValue ::= LOWER_IDENT
+CssValue ::= IDENT
          | literal
          | '%'
          | '('
          | ')'
          | '-'
-         | '#' CAPITALISED_IDENT? LOWER_IDENT?
+         | '#'
          | '.'
          | ':'
          | ','
          | "'"
-         | '{' (LOWER_IDENT | literal) '}'
+         | '{' (IDENT | literal) '}'

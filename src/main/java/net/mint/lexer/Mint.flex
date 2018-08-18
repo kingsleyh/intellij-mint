@@ -108,9 +108,9 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
   "exposing"              { return EXPOSING; }
   "style"                 { return STYLE; }
 
-  {LOWER_CASE_IDENTIFIER} { return IDENT; }
+  {LOWER_CASE_IDENTIFIER} { return LOWER_IDENT; }
     {CAPITALISED_IDENTIFIER} {
-        return IDENT;
+        return CAPITALISED_IDENT;
     }
     {STRING_WITH_DOUBLE_QUOTES_LITERAL} {
         return STRING_LITERAL;
