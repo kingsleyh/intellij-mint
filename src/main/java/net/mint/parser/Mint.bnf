@@ -121,7 +121,7 @@ statement ::=
  | routeDeclarations
  | 'connect' ofType 'exposing' '{' exports '}'
  | '[]'
- | '[' [callArgs] ']'
+ | '[' callArgs ']'
  | 'catch' ofType '=>' LOWER_IDENT '{' statements '}'
  | 'void'
  | 'state' LOWER_IDENT ':' ofType '=' statement
@@ -132,6 +132,8 @@ statement ::=
  | ops
  | literal
  | useProvider
+ | 'decode' LOWER_IDENT 'as' ofType
+ | 'encode'
 
 
 useProvider ::=
