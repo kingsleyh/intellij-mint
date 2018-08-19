@@ -104,7 +104,7 @@ statements ::= statement [statements]
 
 statement ::=
   'component' ofType '{' statements '}'
- | recordAssignments
+ | repeatingRecordAssignments
  | 'store' ofType '{' statements '}'
  | 'fun' LOWER_IDENT '('? args? ')'? ':' ofType '{' statements '}'
  | 'get' LOWER_IDENT ':' ofType '{' statements '}'
@@ -116,12 +116,13 @@ statement ::=
  | 'routes' '{' statements '}'
  | 'module' ofType '{' statements '}'
  | 'record' ofType '{' recordItems '}'
- |  calls
+// | calls
+ | ofTypes
  | expressions
  | routeDeclarations
  | 'connect' ofType 'exposing' '{' exports '}'
  | '[]'
- | '[' callArgs ']'
+ | '[' statements ']'
  | 'catch' ofType '=>' LOWER_IDENT '{' statements '}'
  | 'void'
  | 'state' LOWER_IDENT ':' ofType '=' statement
@@ -139,13 +140,17 @@ statement ::=
 useProvider ::=
   'use' ofType '{' [recordAssignments] '}'
 
+private repeatingRecordAssignments ::= repeatingRecordAssignment [',' repeatingRecordAssignments]
+private repeatingRecordAssignment ::= '{' recordAssignments '}'
+
 private recordAssignments ::= recordAssignment [ ',' recordAssignments]
 
-private recordAssignment ::= (LOWER_IDENT '|')? LOWER_IDENT '=' statement
+private recordAssignment ::= (LOWER_IDENT '|')? LOWER_IDENT '=' statements
 
-calls ::= call ['|>'? calls]
-call ::= ofType? '.'? LOWER_IDENT '(' callArgs? ')'
-        | ofType? '.'? LOWER_IDENT
+//calls ::= call [('|>'|',') calls]
+//call ::=
+
+
 
 private styles ::= aStyle [styles]
 private aStyle ::= 'style' LOWER_IDENT '{' CssStatement '}'
@@ -181,12 +186,16 @@ rhs ::=
  | statement
 
 
+ofType ::= typePath ['.' ofType]
+typePath ::=
+     ( CAPITALISED_IDENT | LOWER_IDENT) (
+      '(' repeatingTypeArgs ')'
+      | '[' repeatingTypeArgs ']'
+     )?
 
-ofType ::= typeParts [ofType ]
-typeParts ::=
-   CAPITALISED_IDENT
-   | '.' | ','
-   | '(' ofType ')'
+ofTypes ::= ofType [',' ofTypes]
+repeatingTypeArgs ::= ofTypes? statements? [',' repeatingTypeArgs]
+
 
 literal ::= (TRUE
        | FALSE
