@@ -100,7 +100,7 @@
 
 program ::= statements
 
-statements ::= statement [statements]
+private statements ::= statement [statements]
 
 statement ::=
   'component' ofType '{' statements '}'
@@ -112,18 +112,24 @@ statement ::=
  | '(' recordItems? ')' ':' ofType '=>' '{' statements '}'
  | 'do' '{' statements '}'
  | 'try' '{' statements '}'
- | 'next' '{' statements '}'
+ | 'next' '{' recordAssignments '}'
  | 'routes' '{' statements '}'
  | 'module' ofType '{' statements '}'
  | 'record' ofType '{' recordItems '}'
-// | calls
  | ofTypes
  | expressions
  | routeDeclarations
  | 'connect' ofType 'exposing' '{' exports '}'
  | '[]'
- | '[' statements ']'
+ | '[' arrayItems ']'
  | 'catch' ofType '=>' LOWER_IDENT '{' statements '}'
+ | 'where' '{' statements '}'
+ | 'when' '{' statements '}'
+ | 'with' ofType '{' statements '}'
+ | enum ofType '{' [statements] '}'
+ | 'finally' '{' statements '}'
+ | 'case' '(' statements ')' '{' statements '}'
+ | '=>'
  | 'void'
  | 'state' LOWER_IDENT ':' ofType '=' statement
  | 'property' LOWER_IDENT ':' ofType '=' statement
@@ -135,7 +141,12 @@ statement ::=
  | useProvider
  | 'decode' LOWER_IDENT 'as' ofType
  | 'encode'
+ | 'provider' ofType ':' ofType '{' statements '}'
+ | '(' statements ')'
+ | '`'
 
+private arrayItems ::= arrayItem [',' arrayItems]
+arrayItem ::= statement
 
 useProvider ::=
   'use' ofType '{' [recordAssignments] '}'
@@ -146,10 +157,6 @@ private repeatingRecordAssignment ::= '{' recordAssignments '}'
 private recordAssignments ::= recordAssignment [ ',' recordAssignments]
 
 private recordAssignment ::= (LOWER_IDENT '|')? LOWER_IDENT '=' statements
-
-//calls ::= call [('|>'|',') calls]
-//call ::=
-
 
 
 private styles ::= aStyle [styles]
@@ -167,11 +174,11 @@ private export ::= LOWER_IDENT
 private recordItems ::= recordItem [recordItems]
 recordItem ::= LOWER_IDENT ':' ofType ('using' STRING_LITERAL)? ','?
 
-routeDeclarations ::= routeDeclaration [routeDeclarations]
+private routeDeclarations ::= routeDeclaration [routeDeclarations]
 routeDeclaration ::=
    '/' | '*' | LOWER_IDENT | '{' statement '}'
 
-expressions ::= expression [ops? expressions]
+private expressions ::= expression [ops? expressions]
 expression ::=
   lhs '=' rhs
   | lhs operators rhs
@@ -186,15 +193,15 @@ rhs ::=
  | statement
 
 
-ofType ::= typePath ['.' ofType]
+private ofType ::= typePath ['.' ofType]
 typePath ::=
      ( CAPITALISED_IDENT | LOWER_IDENT) (
       '(' repeatingTypeArgs ')'
       | '[' repeatingTypeArgs ']'
      )?
 
-ofTypes ::= ofType [',' ofTypes]
-repeatingTypeArgs ::= ofTypes? statements? [',' repeatingTypeArgs]
+private ofTypes ::= ofType [(','|'::') ofTypes]
+private repeatingTypeArgs ::= ofTypes? statements? [',' repeatingTypeArgs]
 
 
 literal ::= (TRUE
@@ -202,14 +209,9 @@ literal ::= (TRUE
        | NUMBER_LITERAL
        | STRING_LITERAL)
 
-args ::= arg [',' args]
+private args ::= arg [',' args]
 arg ::=
   LOWER_IDENT ':' ofType
-
-
-callArgs ::= callArg [',' callArgs]
-callArg ::= statements
-
 
 // HTML
 private htmls ::= html [htmls]
@@ -237,7 +239,7 @@ attrName ::= LOWER_IDENT
 
 
 // CSS
-CssStatement ::=
+private CssStatement ::=
      CssDeclarations
 
 private CssBlocks ::= CssBlock [CssBlocks]
@@ -245,7 +247,7 @@ private CssBlock ::=
    '&' ':'? '::'? CssProperty (':' '::'? CssProperty)? ','? ['{' CssDeclarations '}']
 
 private CssDeclarations ::= CssDeclaration [CssDeclarations]
-private CssDeclaration ::=
+CssDeclaration ::=
      CssProperty ':' CssValues ';'
      | CssBlocks
 
@@ -253,7 +255,7 @@ private CssDeclaration ::=
 private ids ::= id [ids]
 private id ::= LOWER_IDENT | '-' | '::'
 
-CssProperty ::= ids
+private CssProperty ::= ids
 
 private CssValues ::= CssValue [CssValues]
 CssValue ::= LOWER_IDENT
