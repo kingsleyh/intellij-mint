@@ -1,5 +1,6 @@
 {
     parserClass='net.mint.MintParser'
+    parserUtilClass="net.mint.MintParserUtil"
 
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -98,16 +99,20 @@
     ]
 }
 
-program ::= statements
+program ::= statements*
 
 private statements ::= statement [statements]
+
+// This is required to make nonStrictID work - as need an ElementType (LOWER_ID) and a TokenType (LOWER_IDENT)
+// nonStrictID doesn't work in Live Preview so replace it with LowerId temporarily while exploring.
+LowerId ::= LOWER_IDENT
 
 statement ::=
   'component' ofType '{' statements '}'
  | repeatingRecordAssignments
  | 'store' ofType '{' statements '}'
- | 'fun' LOWER_IDENT '('? args? ')'? ':' ofType '{' statements '}'
- | 'get' LOWER_IDENT ':' ofType '{' statements '}'
+ | 'fun' <<nonStrictID>> '('? args? ')'? ':' ofType '{' statements '}'
+ | 'get' <<nonStrictID>> ':' ofType '{' statements '}'
  | 'if' '(' statements ')' '{' statements '}' 'else' '{' statements '}'
  | '(' recordItems? ')' ':' ofType '=>' '{' statements '}'
  | 'do' '{' statements '}'
@@ -131,8 +136,8 @@ statement ::=
  | 'case' '(' statements ')' '{' statements '}'
  | '=>'
  | 'void'
- | 'state' LOWER_IDENT ':' ofType '=' statement
- | 'property' LOWER_IDENT ':' ofType '=' statement
+ | 'state' <<nonStrictID>> ':' ofType '=' statement
+ | 'property' <<nonStrictID>> ':' ofType '=' statement
  | htmls
  | styles
  | operators
@@ -156,11 +161,11 @@ private repeatingRecordAssignment ::= '{' recordAssignments '}'
 
 private recordAssignments ::= recordAssignment [ ',' recordAssignments]
 
-private recordAssignment ::= (LOWER_IDENT '|')? LOWER_IDENT '=' statements
+private recordAssignment ::= (<<nonStrictID>> '|')? <<nonStrictID>> '=' statements
 
 
 private styles ::= aStyle [styles]
-private aStyle ::= 'style' LOWER_IDENT '{' CssStatement '}'
+private aStyle ::= 'style' <<nonStrictID>> '{' CssStatement '}'
 
 operators ::= ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
                    | '&'  | '>'  | '>=' | '<'  | '<=' | '==' | '!=' | '=' | '|>'
@@ -211,7 +216,7 @@ literal ::= (TRUE
 
 private args ::= arg [',' args]
 arg ::=
-  LOWER_IDENT ':' ofType
+  <<nonStrictID>> ':' ofType
 
 // HTML
 private htmls ::= html [htmls]
@@ -253,7 +258,7 @@ CssDeclaration ::=
 
 
 private ids ::= id [ids]
-private id ::= LOWER_IDENT | '-' | '::'
+private id ::= <<nonStrictID>> | '-' | '::'
 
 private CssProperty ::= ids
 
