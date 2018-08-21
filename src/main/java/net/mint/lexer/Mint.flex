@@ -23,7 +23,6 @@ import static net.mint.psi.MintElementTypes.*;
 %unicode
 
 WHITE_SPACE=\s+
-LINE_COMMENT=("/*")[^\r\n]*
 
 IDENTIFIER_CHAR=[[:letter:][:digit:]_]
 LOWER_CASE_IDENTIFIER=[:lowercase:]{IDENTIFIER_CHAR}*
@@ -32,10 +31,35 @@ STRING_LITERAL=\"(\\.|[^\\\"])*\"
 STRING_WITH_DOUBLE_QUOTES_LITERAL=\"\"\"(\\.|[^\\\"]|\"{1,2}([^\"\\]|\\\"))*\"\"\"
 NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
 
+BLOCK_COMMENT_START = "/*"
+BLOCK_COMMENT_END = "*/"
+
+%x BLOCK_COMMENT_CONTENT
+
+
 %%
+
+<BLOCK_COMMENT_CONTENT> {
+	{BLOCK_COMMENT_START}	{
+		return MLCOMMENT;
+	}
+
+	\/? {BLOCK_COMMENT_END}	{
+		yybegin(YYINITIAL);
+		return MLCOMMENT;
+	}
+	\/\/        {return MLCOMMENT;}
+	\n|\/|\*	{return MLCOMMENT;}
+	[^/*\n]+	{return MLCOMMENT;}
+}
+
+<YYINITIAL> {BLOCK_COMMENT_START} {
+		yybegin(BLOCK_COMMENT_CONTENT);
+		return MLCOMMENT;
+	}
+
 <YYINITIAL> {
   {WHITE_SPACE}           { return WHITE_SPACE; }
-  {LINE_COMMENT}          { return LINE_COMMENT; }
   "`"                     { return BACKTICK; }
   "{"                     { return LEFT_BRACE; }
   "}"                     { return RIGHT_BRACE; }

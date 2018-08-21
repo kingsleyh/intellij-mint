@@ -89,7 +89,8 @@
         CONNECT =                            "connect"
         EXPOSING =                           "exposing"
         STYLE =                              "style"
-        LINE_COMMENT =                       'regexp:/\*.*'
+        SLCOMMENT =                          'regexp:/\*.*'
+        MLCOMMENT =                          'regexp:/\*.*\n'
         STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
         NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
 

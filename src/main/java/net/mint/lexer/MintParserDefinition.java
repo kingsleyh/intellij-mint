@@ -36,7 +36,7 @@ import com.intellij.lang.ASTNode;
 public class MintParserDefinition implements ParserDefinition {
 
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
-    public static final TokenSet COMMENTS = TokenSet.create(MintElementTypes.LINE_COMMENT);
+    public static final TokenSet COMMENTS = TokenSet.create(MintElementTypes.MLCOMMENT);
     public static final IStubFileElementType FILE_ELEMENT_TYPE = MintFileStubType.INSTANCE;
 
     @NotNull
