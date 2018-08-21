@@ -201,7 +201,7 @@ rhs ::=
 
 private ofType ::= typePath ['.' ofType]
 typePath ::=
-     ( CAPITALISED_IDENT | LOWER_IDENT) (
+     ( CAPITALISED_IDENT | LowerId) (
       '(' repeatingTypeArgs ')'
       | '[' repeatingTypeArgs ']'
      )?

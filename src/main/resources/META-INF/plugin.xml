@@ -26,8 +26,8 @@
 
         <lang.parserDefinition language="Mint" implementationClass="net.mint.lexer.MintParserDefinition"/>
 
-        <!--<lang.syntaxHighlighterFactory language="Mint"-->
-                                       <!--implementationClass="net.mint.highlighting.MintSyntaxHighlighterFactory"/>-->
+        <lang.syntaxHighlighterFactory language="Mint"
+                                       implementationClass="net.mint.highlighting.MintSyntaxHighlighterFactory"/>
 
         <!--<colorSettingsPage-->
                 <!--implementation="net.mint.highlighting.MintColorSettingsPage" />-->
