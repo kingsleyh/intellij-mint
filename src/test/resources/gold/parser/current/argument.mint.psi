@@ -44,7 +44,7 @@ Mint File
       PsiElement({)('{')
       PsiWhiteSpace('\n    ')
       MintStatementImpl(STATEMENT)
-        MintTypePathImpl(TYPE_PATH)
+        MintRouteDeclarationImpl(ROUTE_DECLARATION)
           PsiElement(LOWER_IDENT)('b')
       PsiWhiteSpace('\n  ')
       PsiElement(})('}')

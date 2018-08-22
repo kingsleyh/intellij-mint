@@ -110,6 +110,7 @@ LowerId ::= LOWER_IDENT
 
 statement ::=
   'component' ofType '{' statements '}'
+ | <<nonStrictID>> '(' statements? ')'
  | repeatingRecordAssignments
  | 'store' ofType '{' statements '}'
  | 'fun' <<nonStrictID>> '('? args? ')'? ':' ofType '{' statements '}'
@@ -122,7 +123,6 @@ statement ::=
  | 'routes' '{' statements '}'
  | 'module' ofType '{' statements '}'
  | 'record' ofType '{' recordItems '}'
- | ofTypes
  | expressions
  | routeDeclarations
  | 'connect' ofType 'exposing' '{' exports '}'
@@ -148,8 +148,15 @@ statement ::=
  | 'decode' LOWER_IDENT 'as' ofType
  | 'encode'
  | 'provider' ofType ':' ofType '{' statements '}'
- | '(' statements ')'
+ | '(' statements? ')'
  | '`'
+ | ofTypes
+ | ','
+ | '.'
+ | '\'
+
+
+
 
 private arrayItems ::= arrayItem [',' arrayItems]
 arrayItem ::= statement
@@ -201,7 +208,7 @@ rhs ::=
 
 private ofType ::= typePath ['.' ofType]
 typePath ::=
-     ( CAPITALISED_IDENT | LowerId) (
+     ( CAPITALISED_IDENT | LOWER_IDENT) (
       '(' repeatingTypeArgs ')'
       | '[' repeatingTypeArgs ']'
      )?
