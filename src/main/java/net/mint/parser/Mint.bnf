@@ -112,7 +112,7 @@ LowerId ::= LOWER_IDENT
 qualifiedName ::= namePart ['.' qualifiedName]
 namePart ::= CAPITALISED_IDENT
 
-qualifiedIdentifier ::= identifier ['.' qualifiedIdentifier]
+//qualifiedIdentifier ::= identifier ['.' qualifiedIdentifier]
 identifier ::= LOWER_IDENT
 
 // Type information
@@ -147,7 +147,6 @@ statement ::=
  | '(' recordItems? ')' ':' ofType '=>' '{' expressionsOrStatements? '}'
  | 'do' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
  | 'try' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
- | routeStatements
  | 'next' '{' recordAssignments? '}'
  | 'connect' qualifiedName 'exposing' '{' exports '}'
  | 'when' '{' expressionsOrStatements? '}'
@@ -156,7 +155,6 @@ statement ::=
  | 'state' identifier ':' ofType '=' expressionsOrStatements
  | 'property' identifier ':' ofType '=' expressionsOrStatements
  | 'decode' identifier 'as' ofType
- | 'encode'
  | 'use' qualifiedName '{' recordAssignments? '}'
  | repeatingRecordAssignments
  | '`'
@@ -222,8 +220,11 @@ expression ::=
   | '[' arrayItems ']'
   | '[]'
   | 'next' '{' recordAssignments? '}'
+  | 'case' '(' expressionsOrStatements? ')' '{' caseConditions '}'
   | '\'
   | '(' expressionsOrStatements ')'
+  | routeStatements
+  | 'encode' expressionsOrStatements
 
 
 // Function Calls

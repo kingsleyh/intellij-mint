@@ -23,7 +23,7 @@ Mint File
       PsiWhiteSpace(' ')
       PsiElement({)('{')
       PsiWhiteSpace('\n    ')
-      MintStatementImpl(STATEMENT)
+      MintExpressionImpl(EXPRESSION)
         PsiElement(case)('case')
         PsiWhiteSpace(' ')
         PsiElement(()('(')

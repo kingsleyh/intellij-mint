@@ -68,7 +68,7 @@ Mint File
       MintExpressionImpl(EXPRESSION)
         PsiElement(=)('=')
         PsiWhiteSpace(' ')
-        MintStatementImpl(STATEMENT)
+        MintExpressionImpl(EXPRESSION)
           MintRouteStatementImpl(ROUTE_STATEMENT)
             PsiElement({)('{')
             PsiWhiteSpace(' ')
