@@ -34,6 +34,9 @@ NUMBER_LITERAL=("-")?[:digit:]+(\.[:digit:]+)?
 BLOCK_COMMENT_START = "/*"
 BLOCK_COMMENT_END = "*/"
 
+BACKTICKS=\`(\\.|[^\\\`]|\n)*\`
+
+
 %x BLOCK_COMMENT_CONTENT
 
 
@@ -48,7 +51,6 @@ BLOCK_COMMENT_END = "*/"
 		yybegin(YYINITIAL);
 		return MLCOMMENT;
 	}
-	\/\/        {return MLCOMMENT;}
 	\n|\/|\*	{return MLCOMMENT;}
 	[^/*\n]+	{return MLCOMMENT;}
 }
@@ -58,8 +60,10 @@ BLOCK_COMMENT_END = "*/"
 		return MLCOMMENT;
 	}
 
+
 <YYINITIAL> {
   {WHITE_SPACE}           { return WHITE_SPACE; }
+  {BACKTICKS}             { return STRING_LITERAL; }
   "`"                     { return BACKTICK; }
   "{"                     { return LEFT_BRACE; }
   "}"                     { return RIGHT_BRACE; }

@@ -16,7 +16,7 @@ public class MintParserUtil extends GeneratedParserUtilBase {
             marker_.done(LOWER_ID);
             return true;
         }
-        else if (MintTokenSets.IDS.contains(builder_.getTokenType())) {
+        else if (MintTokenSets.Keywords.contains(builder_.getTokenType())) {
             builder_.advanceLexer();
             marker_.done(LOWER_ID);
             return true;

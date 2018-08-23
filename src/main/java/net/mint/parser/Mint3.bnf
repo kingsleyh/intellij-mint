@@ -100,147 +100,133 @@
     ]
 }
 
-program ::= topLevelStatements*
+program ::= statements*
 
-private topLevelStatements ::= topLevelStatement [topLevelStatements]
+private statements ::= statement [statements]
 
 // This is required to make nonStrictID work - as need an ElementType (LOWER_ID) and a TokenType (LOWER_IDENT)
 // nonStrictID doesn't work in Live Preview so replace it with LowerId temporarily while exploring.
 LowerId ::= LOWER_IDENT
 
-// Identifiers
-qualifiedName ::= namePart ['.' qualifiedName]
-namePart ::= CAPITALISED_IDENT
-
-qualifiedIdentifier ::= identifier ['.' qualifiedIdentifier]
-identifier ::= LOWER_IDENT
-
-// Type information
-private ofType ::= typePart [ofType]
-typePart ::= (qualifiedName | identifier) ('(' typeArgs ')')?
-
-private typeArgs ::= typeArg [',' typeArgs]
-typeArg ::= (qualifiedName | identifier) ('(' typeArgs ')')?
-
-
-// Function arguments
-private args ::= arg [',' args]
-arg ::=
-  identifier ':' ofType
-
-// Statements
-topLevelStatement ::=
-          ('component' | 'store' | 'module') qualifiedName '{' expressionsOrStatements? '}'
-          | 'record' ofType '{' recordItems '}'
-          | 'routes' '{' expressionsOrStatements? '}'
-          | 'provider' ofType ':' ofType '{' expressionsOrStatements? '}'
-          | 'enum' qualifiedName '{' enumArgs? '}'
-
-private expressionsOrStatements ::= expressions | statements
-
-private statements ::= statement [statements]
-
 statement ::=
-   'fun' identifier '('? args? ')'? ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
- | 'get' identifier ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
- | 'if' '(' expressionsOrStatements ')' '{' expressionsOrStatements '}' 'else' '{' expressionsOrStatements '}'
- | '(' recordItems? ')' ':' ofType '=>' '{' expressionsOrStatements? '}'
- | 'do' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
- | 'try' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
- | routeStatements
- | 'next' '{' recordAssignments? '}'
- | 'connect' qualifiedName 'exposing' '{' exports '}'
- | 'when' '{' expressionsOrStatements? '}'
- | 'with' ofType '{' expressionsOrStatements? '}'
- | 'case' '(' expressionsOrStatements? ')' '{' caseConditions '}'
- | 'state' identifier ':' ofType '=' expressionsOrStatements
- | 'property' identifier ':' ofType '=' expressionsOrStatements
- | 'decode' identifier 'as' ofType
- | 'encode'
- | 'use' qualifiedName '{' recordAssignments? '}'
+  'component' ofType '{' statements '}'
+ | <<nonStrictID>> '(' statements? ')'
  | repeatingRecordAssignments
- | '`'
+ | 'store' ofType '{' statements '}'
+ | 'fun' <<nonStrictID>> '('? args? ')'? ':' ofType '{' statements '}'
+ | 'get' <<nonStrictID>> ':' ofType '{' statements '}'
+ | 'if' '(' statements ')' '{' statements '}' 'else' '{' statements '}'
+ | '(' recordItems? ')' ':' ofType '=>' '{' statements '}'
+ | 'do' '{' statements '}'
+ | 'try' '{' statements '}'
+ | 'next' '{' recordAssignments '}'
+ | 'routes' '{' statements '}'
+ | 'module' ofType '{' statements '}'
+ | 'record' ofType '{' recordItems '}'
+ | expressions
+ | routeDeclarations
+ | 'connect' ofType 'exposing' '{' exports '}'
+ | '[]'
+ | '[' arrayItems ']'
+ | 'catch' ofType '=>' LOWER_IDENT '{' statements '}'
+ | 'where' '{' statements '}'
+ | 'when' '{' statements '}'
+ | 'with' ofType '{' statements '}'
+ | enum ofType '{' [statements] '}'
+ | 'finally' '{' statements '}'
+ | 'case' '(' statement ')' '{' caseConditions '}'
+// | '=>'
+ | 'void'
+ | 'state' <<nonStrictID>> ':' ofType '=' statement
+ | 'property' <<nonStrictID>> ':' ofType '=' statement
+ | htmls
  | styles
+ | operators
+ | ops
+ | literal
+ | useProvider
+ | 'decode' LOWER_IDENT 'as' ofType
+ | 'encode'
+ | 'provider' ofType ':' ofType '{' statements '}'
+ | '(' statements? ')'
+ | '`'
+ | ofTypes
+ | ','
+ | '.'
+ | '\'
 
-// Routes statement
-private routeStatements ::= routeStatement [routeStatements]
-routeStatement ::=
-   '/' | '*' | identifier | '{' expressionsOrStatements? '}'
 
-// Enum args
-private enumArgs ::= enumArg [enumArgs]
-enumArg ::= CAPITALISED_IDENT
-
-// Catch
-private catches ::= catcher [catches]
-catcher ::= 'catch' ofType '=>' identifier '{' expressionsOrStatements? '}'
-
-// Case
 private caseConditions ::= caseCondition [ caseConditions]
-caseCondition ::= literal? '=>' expressionsOrStatements
+private caseCondition ::= literal? '=>' statement
 
-// Arrays
+
 private arrayItems ::= arrayItem [',' arrayItems]
-arrayItem ::= expressionsOrStatements
+arrayItem ::= statement
 
-// Record Assignments
+useProvider ::=
+  'use' ofType '{' [recordAssignments] '}'
+
 private repeatingRecordAssignments ::= repeatingRecordAssignment [',' repeatingRecordAssignments]
 private repeatingRecordAssignment ::= '{' recordAssignments '}'
 
 private recordAssignments ::= recordAssignment [ ',' recordAssignments]
-recordAssignment ::= (identifier '|')? identifier '=' expressionsOrStatements
 
-// Styles
+private recordAssignment ::= (<<nonStrictID>> '|')? <<nonStrictID>> '=' statements
+
+
 private styles ::= aStyle [styles]
-private aStyle ::= 'style' identifier '{' CssStatement? '}'
+private aStyle ::= 'style' <<nonStrictID>> '{' CssStatement '}'
 
-// Operators
 operators ::= ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
                    | '&'  | '>'  | '>=' | '<'  | '<=' | '==' | '!=' | '=' | '|>'
                    | '!')
 
 ops ::= '&&' | '||'
 
-// Exports (used in connect exposing)
 private exports ::= export [',' exports]
-private export ::= identifier
+private export ::= LOWER_IDENT
 
-// Records
-private recordItems ::= recordItem [',' recordItems]
-recordItem ::= LOWER_IDENT ':' ofType ('using' STRING_LITERAL)?
+private recordItems ::= recordItem [recordItems]
+recordItem ::= LOWER_IDENT ':' ofType ('using' STRING_LITERAL)? ','?
 
-// Expressions
+private routeDeclarations ::= routeDeclaration [routeDeclarations]
+routeDeclaration ::=
+   '/' | '*' | LOWER_IDENT | '{' statement '}'
+
 private expressions ::= expression [ops? expressions]
 expression ::=
-   functionCall
-  | identifier
-  | htmls
-  | literal
-  | '=' expressionsOrStatements
-  | operators expressionsOrStatements
-  | 'void'
-  | '[' arrayItems ']'
-  | '[]'
-  | 'next' '{' recordAssignments? '}'
-  | '\'
-  | '(' expressionsOrStatements ')'
+  lhs '=' rhs
+  | lhs operators rhs
 
 
-// Function Calls
-// The :: is for enum call
-private functionCall ::= functionCallIdentifiers '::'? ['(' callArgs? ')']
-private functionCallIdentifiers ::= functionCallIdentifier ['.' functionCallIdentifiers]
-functionCallIdentifier ::= CAPITALISED_IDENT | identifier
 
-// Call Args
-private callArgs ::= callArg [',' callArgs]
-callArg ::= expressionsOrStatements
+lhs ::=
+ LOWER_IDENT | literal
 
-// Literals
+rhs ::=
+ LOWER_IDENT
+ | statement
+
+
+private ofType ::= typePath ['.' ofType]
+typePath ::=
+     ( CAPITALISED_IDENT | LOWER_IDENT) (
+      '(' repeatingTypeArgs ')'
+      | '[' repeatingTypeArgs ']'
+     )?
+
+private ofTypes ::= ofType [(','|'::') ofTypes]
+private repeatingTypeArgs ::= ofTypes? statements? [',' repeatingTypeArgs]
+
+
 literal ::= (TRUE
        | FALSE
        | NUMBER_LITERAL
        | STRING_LITERAL)
+
+private args ::= arg [',' args]
+arg ::=
+  <<nonStrictID>> ':' ofType
 
 // HTML
 private htmls ::= html [htmls]
@@ -249,23 +235,23 @@ html ::= mintTag | tagOpen | tagEmpty | tagClose
 private tagOpen ::= '<' tagName? attrList? '>'
 private tagEmpty ::= '<' tagName? attrList? '/' '>'
 private tagClose ::= '<' '/' tagName '>'
-private mintTag ::= '<' '{' expressionsOrStatements? '}' '>'
+private mintTag ::= '<' '{' statements '}' '>'
 
 
 private attrList ::= (attr)*
 private attr ::= attrDoubleQuoted | attrComponent | attrEmpty
 
 private tagValues ::= tagValue [tagValues]
-private tagValue ::= identifier
-      | expressionsOrStatements
+private tagValue ::= LOWER_IDENT
+      | statement
 
 private attrEmpty ::= attrName
 private attrComponent ::= attrName '=' '{'? tagValues '}'?
 private attrDoubleQuoted ::= attrName? '=' STRING_LITERAL
 
-htmlTag ::= identifier | CAPITALISED_IDENT
-tagName ::= htmlTag ('::' htmlTag)?
-attrName ::= identifier
+tagName ::= LOWER_IDENT ('::' LOWER_IDENT)?
+attrName ::= LOWER_IDENT
+
 
 // CSS
 private CssStatement ::=
@@ -282,20 +268,20 @@ CssDeclaration ::=
 
 
 private ids ::= id [ids]
-private id ::= identifier | '-' | '::'
+private id ::= <<nonStrictID>> | '-' | '::'
 
 private CssProperty ::= ids
 
 private CssValues ::= CssValue [CssValues]
-CssValue ::= identifier
+CssValue ::= LOWER_IDENT
          | literal
          | '%'
          | '('
          | ')'
          | '-'
-         | '#' CAPITALISED_IDENT? identifier?
+         | '#' CAPITALISED_IDENT? LOWER_IDENT?
          | '.'
          | ':'
          | ','
          | "'"
-         | '{' (identifier | literal) '}'
+         | '{' (LOWER_IDENT | literal) '}'
