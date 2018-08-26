@@ -89,7 +89,7 @@ public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
         fillMap(keys, TokenSet.create(LEFT_BRACKET, RIGHT_BRACKET), MINT_BRACKETS);
         fillMap(keys, TokenSet.create(LEFT_BRACE, RIGHT_BRACE), MINT_BRACES);
         fillMap(keys, MintTokenSets.Operators, OPERATOR);
-        fillMap(keys, TokenSet.create(LOWER_ID, LOWER_IDENT), VARIABLE);
+        fillMap(keys, TokenSet.create(LOWER_IDENT), VARIABLE);
         fillMap(keys, TokenSet.create(CAPITALISED_IDENT), FUNCTION_DECLARATION);
         keys.put(EQUAL, MINT_EQ);
         keys.put(COMMA, MINT_COMMA);

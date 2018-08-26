@@ -6,7 +6,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.2.5'
+    id 'org.jetbrains.intellij' version '0.3.7'
 }
 
 
@@ -87,7 +87,7 @@ allprojects {
     intellij {
         pluginName 'intellij-mint'
         version ideaVersion
-        plugins ['PsiViewer:3.28.93']
+        plugins ['PsiViewer:2018.1']
 
         publishPlugin {
             username System.getenv('JETBRAINS_USERNAME')
@@ -98,7 +98,7 @@ allprojects {
         ideaDependencyCachePath './distros'
         prepareSandbox {
             copy {
-                from './PsiViewer.jar'
+                from './PsiViewer-2018.1.zip'
                 into './build/idea-sandbox/plugins/'
             }
         }

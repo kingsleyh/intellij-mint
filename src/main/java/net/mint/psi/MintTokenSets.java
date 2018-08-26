@@ -6,7 +6,7 @@ import static net.mint.psi.MintElementTypes.*;
 
 public interface MintTokenSets {
 
-    TokenSet IDS = TokenSet.create(STYLE, MODULE, COMPONENT, STORE, STATE, PROPERTY, NEXT, RECORD, GET, FUN);
+    TokenSet IDS = TokenSet.create(GET, FUN, PROPERTY, STATE);
 
     TokenSet Keywords = TokenSet.create(
             CASE,

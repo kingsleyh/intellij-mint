@@ -89,59 +89,66 @@
         CONNECT =                            "connect"
         EXPOSING =                           "exposing"
         STYLE =                              "style"
-        SLCOMMENT =                          'regexp:/\*.*'
-        MLCOMMENT =                          'regexp:/\*.*\n'
-        STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
-        NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
 
-        CAPITALISED_IDENT   = "regexp:[A-Z]+\w*"
-        LOWER_IDENT         = "regexp:\w+"
-        space               = 'regexp:\s+'
+        MLCOMMENT =                          "MLCOMMENT"
+        STRING_LITERAL =                     "STRING_LITERAL"
+        NUMBER_LITERAL =                     "NUMBER_LITERAL"
+        CAPITALISED_IDENT =                  "CAPITALISED_IDENT"
     ]
 }
 
+
+//        MLCOMMENT =                          'regexp:/\*.*\n'
+//        STRING_LITERAL =                     'regexp:("([^\"\\]|\\.)*")'
+//        NUMBER_LITERAL =                     'regexp:(\+|\-)?(0b[01_]+|0o[0-7_]+|0x[a-fA-f\d_]+|[\d_]+)(\.[\d_]+)?(e[-+]?[\d_]+)?(_?(i|f|u)(8|16|32|64))?'
+//        CAPITALISED_IDENT   = "regexp:[A-Z]+\w*"
+//        identifier         = "regexp:\w+"
+//        space               = 'regexp:\s+'
+
 program ::= topLevelStatements*
 
-private topLevelStatements ::= topLevelStatement [topLevelStatements]
-
-// This is required to make nonStrictID work - as need an ElementType (LOWER_ID) and a TokenType (LOWER_IDENT)
-// nonStrictID doesn't work in Live Preview so replace it with LowerId temporarily while exploring.
-LowerId ::= LOWER_IDENT
+topLevelStatements ::= topLevelStatement [topLevelStatements]
 
 // Identifiers
+identifier ::= LOWER_IDENT
+
 qualifiedName ::= namePart ['.' qualifiedName]
 namePart ::= CAPITALISED_IDENT
 
-//qualifiedIdentifier ::= identifier ['.' qualifiedIdentifier]
-identifier ::= LOWER_IDENT
 
 // Type information
-private ofType ::= typePart [ofType]
+ofType ::= typePart [ofType]
 typePart ::= (qualifiedName | identifier) ('(' typeArgs ')')?
 
-private typeArgs ::= typeArg [',' typeArgs]
+typeArgs ::= typeArg [',' typeArgs]
 typeArg ::= (qualifiedName | identifier) ('(' typeArgs ')')?
 
 
 // Function arguments
-private args ::= arg [',' args]
+args ::= arg [',' args]
 arg ::=
   identifier ':' ofType
 
 // Statements
 topLevelStatement ::=
-          ('component' | 'store' | 'module') qualifiedName '{' expressionsOrStatements? '}'
+          'component' qualifiedName '{' expressionsOrStatements? '}'
+          |  storeStatement
+          | 'module' qualifiedName '{' expressionsOrStatements? '}'
           | 'record' ofType '{' recordItems '}'
           | 'routes' '{' expressionsOrStatements? '}'
           | 'provider' ofType ':' ofType '{' expressionsOrStatements? '}'
           | 'enum' qualifiedName '{' enumArgs? '}'
 
-private expressionsOrStatements ::= expressions | statements
+storeStatement ::= 'store' qualifiedName '{' expressionsOrStatements? '}'
 
-private statements ::= statement [statements]
+expressionsOrStatements ::= expressions | statements
+
+statements ::= statement [statements]
+
+
 
 statement ::=
-   'fun' identifier '('? args? ')'? ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
+   'fun' <<nonStrictId>> '('? args? ')'? ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
  | 'get' identifier ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
  | 'if' '(' expressionsOrStatements ')' '{' expressionsOrStatements '}' 'else' '{' expressionsOrStatements '}'
  | '(' recordItems? ')' ':' ofType '=>' '{' expressionsOrStatements? '}'
@@ -161,36 +168,36 @@ statement ::=
  | styles
 
 // Routes statement
-private routeStatements ::= routeStatement [routeStatements]
+routeStatements ::= routeStatement [routeStatements]
 routeStatement ::=
    '/' | '*' | identifier | '{' expressionsOrStatements? '}'
 
 // Enum args
-private enumArgs ::= enumArg [enumArgs]
+enumArgs ::= enumArg [enumArgs]
 enumArg ::= CAPITALISED_IDENT
 
 // Catch
-private catches ::= catcher [catches]
+catches ::= catcher [catches]
 catcher ::= 'catch' ofType '=>' identifier '{' expressionsOrStatements? '}'
 
 // Case
-private caseConditions ::= caseCondition [ caseConditions]
+caseConditions ::= caseCondition [ caseConditions]
 caseCondition ::= literal? '=>' expressionsOrStatements
 
 // Arrays
-private arrayItems ::= arrayItem [',' arrayItems]
+arrayItems ::= arrayItem [',' arrayItems]
 arrayItem ::= expressionsOrStatements
 
 // Record Assignments
-private repeatingRecordAssignments ::= repeatingRecordAssignment [',' repeatingRecordAssignments]
-private repeatingRecordAssignment ::= '{' recordAssignments '}'
+repeatingRecordAssignments ::= repeatingRecordAssignment [',' repeatingRecordAssignments]
+repeatingRecordAssignment ::= '{' recordAssignments '}'
 
-private recordAssignments ::= recordAssignment [ ',' recordAssignments]
+recordAssignments ::= recordAssignment [ ',' recordAssignments]
 recordAssignment ::= (identifier '|')? identifier '=' expressionsOrStatements
 
 // Styles
-private styles ::= aStyle [styles]
-private aStyle ::= 'style' identifier '{' CssStatement? '}'
+styles ::= aStyle [styles]
+aStyle ::= 'style' identifier '{' CssStatement? '}'
 
 // Operators
 operators ::= ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
@@ -200,15 +207,15 @@ operators ::= ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
 ops ::= '&&' | '||'
 
 // Exports (used in connect exposing)
-private exports ::= export [',' exports]
-private export ::= identifier
+exports ::= export [',' exports]
+export ::= identifier
 
 // Records
-private recordItems ::= recordItem [',' recordItems]
-recordItem ::= LOWER_IDENT ':' ofType ('using' STRING_LITERAL)?
+recordItems ::= recordItem [',' recordItems]
+recordItem ::= identifier ':' ofType ('using' STRING_LITERAL)?
 
 // Expressions
-private expressions ::= expression [ops? expressions]
+expressions ::= expression [ops? expressions]
 expression ::=
    functionCall
   | identifier
@@ -229,12 +236,12 @@ expression ::=
 
 // Function Calls
 // The :: is for enum call
-private functionCall ::= functionCallIdentifiers '::'? ['(' callArgs? ')']
-private functionCallIdentifiers ::= functionCallIdentifier ['.' functionCallIdentifiers]
+functionCall ::= functionCallIdentifiers '::'? ['(' callArgs? ')']
+functionCallIdentifiers ::= functionCallIdentifier ['.' functionCallIdentifiers]
 functionCallIdentifier ::= CAPITALISED_IDENT | identifier
 
 // Call Args
-private callArgs ::= callArg [',' callArgs]
+callArgs ::= callArg [',' callArgs]
 callArg ::= expressionsOrStatements
 
 // Literals
@@ -244,7 +251,7 @@ literal ::= (TRUE
        | STRING_LITERAL)
 
 // HTML
-private htmls ::= html [htmls]
+htmls ::= html [htmls]
 html ::= mintTag | tagOpen | tagEmpty | tagClose
 
 private tagOpen ::= '<' tagName? attrList? '>'
@@ -269,14 +276,14 @@ tagName ::= htmlTag ('::' htmlTag)?
 attrName ::= identifier
 
 // CSS
-private CssStatement ::=
+CssStatement ::=
      CssDeclarations
 
-private CssBlocks ::= CssBlock [CssBlocks]
-private CssBlock ::=
+CssBlocks ::= CssBlock [CssBlocks]
+CssBlock ::=
    '&' ':'? '::'? CssProperty (':' '::'? CssProperty)? ','? ['{' CssDeclarations '}']
 
-private CssDeclarations ::= CssDeclaration [CssDeclarations]
+CssDeclarations ::= CssDeclaration [CssDeclarations]
 CssDeclaration ::=
      CssProperty ':' CssValues ';'
      | CssBlocks
