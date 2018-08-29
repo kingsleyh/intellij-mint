@@ -10,6 +10,15 @@
 This plugin is still in the **early stages of development** so only has a handful of features. But over time things will stabilize and more features will be added. Currently 
 only the lexer and very basic grammar parsing are done.
  
+## ScreenShots
+
+![darcula](.README/darcula_mint.png) 
+
+![default](.README/default_mint.png) 
+ 
+## Known Issues
+* Currently function calls that include keywords breaks the psi tree e.g `Http.get` where `get` is a keyword
+* Commenter - only works with block comments - single line comment will not close the comment (mint does not currently have single line comments)
  
 ## Usage
 
