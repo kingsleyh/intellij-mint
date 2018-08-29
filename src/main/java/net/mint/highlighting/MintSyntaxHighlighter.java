@@ -50,7 +50,6 @@ public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
 
 //    public static final TextAttributesKey MODULE_NAME = createKey("MINT_MODULE_NAME", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
 
-    public static final TextAttributesKey FUNCTION_DECLARATION = createKey("MINT_FUNCTION_DECLARATION", CodeInsightColors.METHOD_CALL_ATTRIBUTES);
 
     public static final TextAttributesKey MINT_EQ = createKey("MINT_EQ", DefaultLanguageHighlighterColors.OPERATION_SIGN);
 
@@ -74,10 +73,11 @@ public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
 //    public static final TextAttributesKey IMPORT_REF = createKey("MINT_IMPORT_REF", DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
 //
     // 'String' in 'foo : String'
-//    public static final TextAttributesKey TYPE_NAME = createKey("MINT_TYPE_NAME", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
+    public static final TextAttributesKey OF_TYPE_NAME = createKey("MINT_OF_TYPE_NAME", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
 
-//    // 'foo' in 'foo :: String -> String'
-//    public static final TextAttributesKey TYPE_ANNOTATION_NAME = createKey("MINT_TYPE_ANNOTATION_NAME", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
+//    // 'foo' in 'foo : String'
+    public static final TextAttributesKey FUNCTION_DECLARATION = createKey("MINT_FUNCTION_DECLARATION", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
+
 //
 //    // 'a' in 'foo:: forall a. a -> a -> String'
 //    public static final TextAttributesKey TYPE_VARIABLE = createKey("MINT_TYPE_VARIABLE", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);

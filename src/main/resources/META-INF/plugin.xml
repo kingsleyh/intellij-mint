@@ -29,6 +29,10 @@
         <lang.syntaxHighlighterFactory language="Mint"
                                        implementationClass="net.mint.highlighting.MintSyntaxHighlighterFactory"/>
 
+        <annotator
+                language="Mint"
+                implementationClass="net.mint.highlighting.MintSyntaxHighlightAnnotator"/>
+
         <colorSettingsPage
                 implementation="net.mint.highlighting.MintColorSettingsPage" />
 

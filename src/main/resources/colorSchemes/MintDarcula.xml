@@ -15,6 +15,19 @@
         </value>
     </option>
 
+    <option name="MINT_OF_TYPE_NAME">
+        <value>
+            <option name="FOREGROUND" value="#e5c07b"/>
+        </value>
+    </option>
+
+    <option name="MINT_FUNCTION_DECLARATION">
+        <value>
+            <option name="FOREGROUND" value="#61afef"/>
+            <option name="FONT_TYPE" value="1"/>
+        </value>
+    </option>
+
     <!--<option name="PS_TYPE_ANNOTATION_NAME">-->
         <!--<value>-->
             <!--<option name="FOREGROUND" value="#61afef"/>-->

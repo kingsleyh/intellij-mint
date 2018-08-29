@@ -148,9 +148,11 @@ expressionsOrStatements ::= expressions | statements
 
 statements ::= statement [statements]
 
+funOrGetStatement ::= 'fun' <<nonStrictId>> '('? args? ')'? ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
+                       | 'get' <<nonStrictId>> ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
+
 statement ::=
-   'fun' <<nonStrictId>> '('? args? ')'? ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
- | 'get' <<nonStrictId>> ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
+ funOrGetStatement
  | 'if' '(' expressionsOrStatements ')' '{' expressionsOrStatements '}' 'else' '{' expressionsOrStatements '}'
  | '(' recordItems? ')' ':' ofType '=>' '{' expressionsOrStatements? '}'
  | 'do' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
