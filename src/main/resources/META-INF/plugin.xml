@@ -29,16 +29,19 @@
         <lang.syntaxHighlighterFactory language="Mint"
                                        implementationClass="net.mint.highlighting.MintSyntaxHighlighterFactory"/>
 
-        <!--<colorSettingsPage-->
-                <!--implementation="net.mint.highlighting.MintColorSettingsPage" />-->
+        <colorSettingsPage
+                implementation="net.mint.highlighting.MintColorSettingsPage" />
 
-        <!--<lang.commenter-->
-                <!--language="Mint"-->
-                <!--implementationClass="net.mint.features.MintCommenter"/>-->
+        <additionalTextAttributes scheme="Default" file="colorSchemes/MintDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/MintDarcula.xml"/>
 
-        <!--<lang.braceMatcher-->
-                <!--language="Mint"-->
-                <!--implementationClass="net.mint.features.MintPairedBraceMatcher"/>-->
+        <lang.commenter
+                language="Mint"
+                implementationClass="net.mint.features.MintCommenter"/>
+
+        <lang.braceMatcher
+                language="Mint"
+                implementationClass="net.mint.features.MintPairedBraceMatcher"/>
 
     </extensions>
 

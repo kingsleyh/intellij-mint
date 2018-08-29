@@ -21,9 +21,9 @@ import static net.mint.psi.MintElementTypes.*;
 public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final Map<IElementType, TextAttributesKey> keys = new HashMap<IElementType, TextAttributesKey>();
 
-    public static final TextAttributesKey MINT_COMMENT = createKey("MINT_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+//    public static final TextAttributesKey MINT_COMMENT = createKey("MINT_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 
-//    public static final TextAttributesKey BLOCK_COMMENT = createKey("MINT_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+    public static final TextAttributesKey BLOCK_COMMENT = createKey("MINT_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
 
     public static final TextAttributesKey KEYWORD = createKey("MINT_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
 
@@ -62,6 +62,8 @@ public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey MINT_ARROW = createKey("MINT_ARROW", DefaultLanguageHighlighterColors.OPERATION_SIGN);
 
+    public static final TextAttributesKey TYPE_NAME = createKey("MINT_TYPE_NAME", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
+
 //    public static final TextAttributesKey MINT_UNDERSCORE = createKey("MINT_UNDERSCORE", DefaultLanguageHighlighterColors.OPERATION_SIGN);
 
 
@@ -71,9 +73,9 @@ public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
 //    // 'log' in 'import Control.Monad.Eff.Console (log)'
 //    public static final TextAttributesKey IMPORT_REF = createKey("MINT_IMPORT_REF", DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
 //
-//    // 'String' in 'foo :: String -> String'
+    // 'String' in 'foo : String'
 //    public static final TextAttributesKey TYPE_NAME = createKey("MINT_TYPE_NAME", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
-//
+
 //    // 'foo' in 'foo :: String -> String'
 //    public static final TextAttributesKey TYPE_ANNOTATION_NAME = createKey("MINT_TYPE_ANNOTATION_NAME", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
 //
@@ -81,7 +83,7 @@ public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
 //    public static final TextAttributesKey TYPE_VARIABLE = createKey("MINT_TYPE_VARIABLE", CodeInsightColors.ANNOTATION_NAME_ATTRIBUTES);
 
     static {
-        fillMap(keys, TokenSet.create(MLCOMMENT), MINT_COMMENT);
+        fillMap(keys, TokenSet.create(MLCOMMENT), BLOCK_COMMENT);
         fillMap(keys, MintTokenSets.Keywords, KEYWORD);
         fillMap(keys, TokenSet.create(NUMBER_LITERAL), NUMBER);
         fillMap(keys, TokenSet.create(STRING_LITERAL), STRING);
@@ -90,7 +92,7 @@ public class MintSyntaxHighlighter extends SyntaxHighlighterBase {
         fillMap(keys, TokenSet.create(LEFT_BRACE, RIGHT_BRACE), MINT_BRACES);
         fillMap(keys, MintTokenSets.Operators, OPERATOR);
         fillMap(keys, TokenSet.create(LOWER_IDENT), VARIABLE);
-        fillMap(keys, TokenSet.create(CAPITALISED_IDENT), FUNCTION_DECLARATION);
+        fillMap(keys, TokenSet.create(CAPITALISED_IDENT), TYPE_NAME);
         keys.put(EQUAL, MINT_EQ);
         keys.put(COMMA, MINT_COMMA);
         keys.put(DOT, MINT_DOT);
