@@ -112,9 +112,12 @@ topLevelStatements ::= topLevelStatement [topLevelStatements]
 // Identifiers
 identifier ::= LOWER_IDENT
 
-qualifiedName ::= namePart ['.' qualifiedName]
-namePart ::= CAPITALISED_IDENT
 
+qualifiedName ::= properName ['.' qualifiedName]
+properName ::= CAPITALISED_IDENT
+
+// Keywords
+keyword ::= 'get' | 'fun'
 
 // Type information
 ofType ::= typePart [ofType]
@@ -127,7 +130,7 @@ typeArg ::= (qualifiedName | identifier) ('(' typeArgs ')')?
 // Function arguments
 args ::= arg [',' args]
 arg ::=
-  identifier ':' ofType
+  <<nonStrictId>> ':' ofType
 
 // Statements
 topLevelStatement ::=
@@ -145,11 +148,9 @@ expressionsOrStatements ::= expressions | statements
 
 statements ::= statement [statements]
 
-
-
 statement ::=
    'fun' <<nonStrictId>> '('? args? ')'? ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
- | 'get' identifier ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
+ | 'get' <<nonStrictId>> ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
  | 'if' '(' expressionsOrStatements ')' '{' expressionsOrStatements '}' 'else' '{' expressionsOrStatements '}'
  | '(' recordItems? ')' ':' ofType '=>' '{' expressionsOrStatements? '}'
  | 'do' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
@@ -159,9 +160,9 @@ statement ::=
  | 'when' '{' expressionsOrStatements? '}'
  | 'with' ofType '{' expressionsOrStatements? '}'
  | 'case' '(' expressionsOrStatements? ')' '{' caseConditions '}'
- | 'state' identifier ':' ofType '=' expressionsOrStatements
- | 'property' identifier ':' ofType '=' expressionsOrStatements
- | 'decode' identifier 'as' ofType
+ | 'state' <<nonStrictId>> ':' ofType '=' expressionsOrStatements
+ | 'property' <<nonStrictId>> ':' ofType '=' expressionsOrStatements
+ | 'decode' <<nonStrictId>> 'as' ofType
  | 'use' qualifiedName '{' recordAssignments? '}'
  | repeatingRecordAssignments
  | '`'
@@ -174,7 +175,7 @@ routeStatement ::=
 
 // Enum args
 enumArgs ::= enumArg [enumArgs]
-enumArg ::= CAPITALISED_IDENT
+enumArg ::= properName
 
 // Catch
 catches ::= catcher [catches]
@@ -193,11 +194,11 @@ repeatingRecordAssignments ::= repeatingRecordAssignment [',' repeatingRecordAss
 repeatingRecordAssignment ::= '{' recordAssignments '}'
 
 recordAssignments ::= recordAssignment [ ',' recordAssignments]
-recordAssignment ::= (identifier '|')? identifier '=' expressionsOrStatements
+recordAssignment ::= (<<nonStrictId>> '|')? <<nonStrictId>> '=' expressionsOrStatements
 
 // Styles
 styles ::= aStyle [styles]
-aStyle ::= 'style' identifier '{' CssStatement? '}'
+aStyle ::= 'style' <<nonStrictId>> '{' CssStatement? '}'
 
 // Operators
 operators ::= ('+' | '-'  | '*'  | '/'  | '%'  | '|'  | '^'
@@ -208,7 +209,7 @@ ops ::= '&&' | '||'
 
 // Exports (used in connect exposing)
 exports ::= export [',' exports]
-export ::= identifier
+export ::= <<nonStrictId>>
 
 // Records
 recordItems ::= recordItem [',' recordItems]
@@ -238,7 +239,9 @@ expression ::=
 // The :: is for enum call
 functionCall ::= functionCallIdentifiers '::'? ['(' callArgs? ')']
 functionCallIdentifiers ::= functionCallIdentifier ['.' functionCallIdentifiers]
-functionCallIdentifier ::= CAPITALISED_IDENT | identifier
+functionCallIdentifier ::= properName | identifier // need to convert keywords here but not sure how to do it
+                                                   // nonStrictId I couldn't get to work. so Http.get will kill the psi tree
+
 
 // Call Args
 callArgs ::= callArg [',' callArgs]
@@ -271,7 +274,7 @@ private attrEmpty ::= attrName
 private attrComponent ::= attrName '=' '{'? tagValues '}'?
 private attrDoubleQuoted ::= attrName? '=' STRING_LITERAL
 
-htmlTag ::= identifier | CAPITALISED_IDENT
+htmlTag ::= identifier | properName
 tagName ::= htmlTag ('::' htmlTag)?
 attrName ::= identifier
 
@@ -301,7 +304,7 @@ CssValue ::= identifier
          | '('
          | ')'
          | '-'
-         | '#' CAPITALISED_IDENT? identifier?
+         | '#' properName? identifier?
          | '.'
          | ':'
          | ','

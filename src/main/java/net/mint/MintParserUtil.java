@@ -7,9 +7,7 @@ import net.mint.psi.MintTokenSets;
 
 import java.util.Objects;
 
-import static net.mint.psi.MintElementTypes.GET;
-import static net.mint.psi.MintElementTypes.IDENTIFIER;
-import static net.mint.psi.MintElementTypes.LOWER_IDENT;
+import static net.mint.psi.MintElementTypes.*;
 
 public class MintParserUtil extends GeneratedParserUtilBase {
 
@@ -38,6 +36,44 @@ public class MintParserUtil extends GeneratedParserUtilBase {
         }
     }
 
+    public static boolean nonStrictIdNested(PsiBuilder builder_, int level_) {
+        final PsiBuilder.Marker marker_ = builder_.mark();
+        IElementType tokenType = builder_.getTokenType();
+
+        System.out.print(tokenType);
+//        if (MintTokenSets.Keywords.contains(tokenType)) {
+//
+//            builder_.advanceLexer();
+//
+//            marker_.done(FUNCTION_CALL_IDENTIFIER);
+//            return true;
+//        } else {
+            marker_.rollbackTo();
+            return false;
+//        }
+//
+//        if (MintTokenSets.Keywords.contains(tokenType)) {
+//            marker_.done(tokenType);
+//            return nonStrictID(builder_, level_);
+//        } else {
+//            marker_.rollbackTo();
+//            return false;
+//        }
+
+//        final boolean result_ = consumeToken(builder_, LOWER_IDENT);
+//        final PsiBuilder.Marker marker_ = builder_.mark();
+//        if(result_){
+//
+//            marker_.done(IDENTIFIER);
+//            return true;
+//        } else {
+//            marker_.rollbackTo();
+//            return false;
+//        }
+//        marker_.rollbackTo();
+//       return false;
+    }
+
 //    public static boolean nonStrictID(PsiBuilder builder_, int level_) {
 //        final PsiBuilder.Marker marker_ = builder_.mark();
 //
@@ -55,21 +91,21 @@ public class MintParserUtil extends GeneratedParserUtilBase {
 //        return false;
 //    }
 
-//    public static boolean nonStrictID(PsiBuilder builder_, int level_) {
-//        final PsiBuilder.Marker marker_ = builder_.mark();
-//
-//        final boolean result_ = consumeToken(builder_, LOWER_IDENT);
-//        if (result_) {
-//            marker_.done(IDENTIFIER);
-//            return true;
-//        }
-//        else if (MintTokenSets.IDS.contains(builder_.getTokenType())) {
-//            builder_.advanceLexer();
-//
-//            marker_.done(IDENTIFIER);
-//            return true;
-//        }
-//        marker_.rollbackTo();
-//        return false;
-//    }
+    public static boolean nonStrictID(PsiBuilder builder_, int level_) {
+        final PsiBuilder.Marker marker_ = builder_.mark();
+
+        final boolean result_ = consumeToken(builder_, LOWER_IDENT);
+        if (result_) {
+            marker_.done(IDENTIFIER);
+            return true;
+        }
+        else if (MintTokenSets.IDS.contains(builder_.getTokenType())) {
+            builder_.advanceLexer();
+
+            marker_.done(IDENTIFIER);
+            return true;
+        }
+        marker_.rollbackTo();
+        return false;
+    }
 }

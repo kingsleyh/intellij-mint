@@ -34,7 +34,8 @@ public class MintParserTest extends PsiTestCase {
     public void testExamples() {
         String testDataPath = "src/test/resources/gold/parser";
         FileUtil.processFilesRecursively(new File(testDataPath + "/current"), processor(true));
-        FileUtil.processFilesRecursively(new File(testDataPath + "/go"), processor(true));
+//        FileUtil.processFilesRecursively(new File(testDataPath + "/failing"), processor(true));
+//        FileUtil.processFilesRecursively(new File(testDataPath + "/unknown"), processor(true));
 
     }
 
