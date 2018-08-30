@@ -47,6 +47,10 @@
                 language="Mint"
                 implementationClass="net.mint.features.MintPairedBraceMatcher"/>
 
+        <lang.refactoringSupport
+                language="Mint"
+                implementationClass="net.mint.features.MintRefactoringSupportProvider"/>
+
     </extensions>
 
     <actions>

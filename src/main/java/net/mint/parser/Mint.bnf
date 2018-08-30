@@ -13,6 +13,7 @@
     psiImplClassSuffix='Impl'
     psiPackage='net.mint.psi'
     psiImplPackage='net.mint.psi.impl'
+    psiImplUtilClass='net.mint.psi.impl.MintPsiImplUtil'
 
     generateTokenAccessors=false
 
@@ -110,11 +111,17 @@ program ::= topLevelStatements*
 topLevelStatements ::= topLevelStatement [topLevelStatements]
 
 // Identifiers
-identifier ::= LOWER_IDENT
+identifier ::= LOWER_IDENT {
+        implements="net.mint.psi.MintNamedElement"
+        mixin="net.mint.psi.impl.MintNamedElementImpl"
+        methods=[getNameIdentifier getName setName ] }
 
 
 qualifiedName ::= properName ['.' qualifiedName]
-properName ::= CAPITALISED_IDENT
+properName ::= CAPITALISED_IDENT {
+                          implements="net.mint.psi.MintNamedElement"
+                          mixin="net.mint.psi.impl.MintNamedElementImpl"
+                          methods=[getNameIdentifier getName setName] }
 
 // Keywords
 keyword ::= 'get' | 'fun'
