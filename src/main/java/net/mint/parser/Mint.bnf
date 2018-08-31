@@ -145,7 +145,7 @@ topLevelStatement ::=
           |  storeStatement
           | 'module' qualifiedName '{' expressionsOrStatements? '}'
           | 'record' ofType '{' recordItems '}'
-          | 'routes' '{' expressionsOrStatements? '}'
+          | 'routes' '{' routeStatements? '}'
           | 'provider' ofType ':' ofType '{' expressionsOrStatements? '}'
           | 'enum' qualifiedName '{' enumArgs? '}'
 
@@ -180,7 +180,10 @@ statement ::=
 // Routes statement
 routeStatements ::= routeStatement [routeStatements]
 routeStatement ::=
-   '/' | '*' | identifier | '{' expressionsOrStatements? '}'
+   routeParts ['(' recordItems ')'] '{' expressionsOrStatements? '}'
+
+routeParts ::= routePart [routeParts]
+routePart ::= '/' | '*' | ':' | identifier
 
 // Enum args
 enumArgs ::= enumArg [enumArgs]
@@ -240,7 +243,7 @@ expression ::=
   | 'case' '(' expressionsOrStatements? ')' '{' caseConditions '}'
   | '\'
   | '(' expressionsOrStatements ')'
-  | routeStatements
+//  | routeStatements
   | 'encode' expressionsOrStatements
 
 
