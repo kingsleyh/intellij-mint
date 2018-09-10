@@ -57,7 +57,8 @@
         QUESTION =                           "?"
         SEMI =                               ";"
         CASE =                               "case"
-        DO =                                 "do"
+        SEQUENCE =                           "sequence"
+        PARALLEL =                           "parallel"
         TRY =                                "try"
         ELSE =                               "else"
         IF =                                 "if"
@@ -90,6 +91,8 @@
         CONNECT =                            "connect"
         EXPOSING =                           "exposing"
         STYLE =                              "style"
+        TEST =                               "test"
+        SUITE =                              "suite"
 
         MLCOMMENT =                          "MLCOMMENT"
         STRING_LITERAL =                     "STRING_LITERAL"
@@ -148,6 +151,11 @@ topLevelStatement ::=
           | 'routes' '{' routeStatements? '}'
           | 'provider' ofType ':' ofType '{' expressionsOrStatements? '}'
           | 'enum' qualifiedName '{' enumArgs? '}'
+          | 'suite' literal '{' testStatements? '}'
+
+testStatements ::= testStatement [testStatements]
+
+testStatement ::= 'test' literal '{' expressionsOrStatements? '}'
 
 storeStatement ::= 'store' qualifiedName '{' expressionsOrStatements? '}'
 
@@ -158,11 +166,20 @@ statements ::= statement [statements]
 funOrGetStatement ::= 'fun' <<nonStrictId>> '('? args? ')'? ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
                        | 'get' <<nonStrictId>> ':' ofType '{' expressionsOrStatements? '}' ['where' '{' expressionsOrStatements? '}']
 
+private elsePart ::=
+ 'else' 'if'? '(' expressionsOrStatements ')' '{' expressionsOrStatements '}'
+
+private elseParts ::= elsePart [elseParts]
+
+ifElseStatement ::=
+   'if' '(' expressionsOrStatements ')' '{' expressionsOrStatements '}' elseParts
+
 statement ::=
  funOrGetStatement
- | 'if' '(' expressionsOrStatements ')' '{' expressionsOrStatements '}' 'else' '{' expressionsOrStatements '}'
+ | ifElseStatement
  | '(' recordItems? ')' ':' ofType '=>' '{' expressionsOrStatements? '}'
- | 'do' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
+ | 'sequence' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
+ | 'parallel' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
  | 'try' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
  | 'next' '{' recordAssignments? '}'
  | 'connect' qualifiedName 'exposing' '{' exports '}'
@@ -191,7 +208,7 @@ enumArg ::= properName
 
 // Catch
 catches ::= catcher [catches]
-catcher ::= 'catch' ofType '=>' identifier '{' expressionsOrStatements? '}'
+catcher ::= 'catch' [ofType '=>' identifier] '{' expressionsOrStatements? '}'
 
 // Case
 caseConditions ::= caseCondition [ caseConditions]

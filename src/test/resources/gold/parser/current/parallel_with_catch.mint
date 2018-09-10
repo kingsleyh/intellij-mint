@@ -6,15 +6,13 @@ module Promise {
 
 component Do {
   fun test : Void {
-    do {
+    parallel {
       greeting =
         Promise.reject("hello")
 
       void
     } catch String => a {
-      void
-    } catch {
-      "Catching all errors here"
+      "hello"
     }
   }
 

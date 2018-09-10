@@ -14,7 +14,7 @@ component A {
   }
 
   fun a() : Void {
-    do {
+    sequence {
       if(a == 1 && b != 2 || c <= 3 || c > a && b < x || b >= y){
         true
       } else {

@@ -1,13 +1,13 @@
 routes {
 
   /home {
-    do {
+    sequence {
       Application.setPage("home")
     }
   }
 
   / {
-    do {
+    sequence {
       Application.setPage("home")
     }
   }

@@ -10,7 +10,8 @@ public interface MintTokenSets {
 
     TokenSet Keywords = TokenSet.create(
             CASE,
-            DO,
+            PARALLEL,
+            SEQUENCE,
             TRY,
             ELSE,
             IF,

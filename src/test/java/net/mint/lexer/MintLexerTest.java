@@ -9,7 +9,8 @@ public class MintLexerTest extends MintLexerTestBase {
     // keywords
     public void testkeyword_component() { doTest(true, true); }
     public void testkeyword_case() { doTest(true, true); }
-    public void testkeyword_do() { doTest(true, true); }
+    public void testkeyword_sequence() { doTest(true, true); }
+    public void testkeyword_parallel() { doTest(true, true); }
     public void testkeyword_try() { doTest(true, true); }
     public void testkeyword_if_else() { doTest(true, true); }
     public void testkeyword_true_false() { doTest(true, true); }
@@ -27,6 +28,7 @@ public class MintLexerTest extends MintLexerTestBase {
     public void testkeyword_get() { doTest(true, true); }
     public void testkeyword_enum() { doTest(true, true); }
     public void testkeyword_routes() { doTest(true, true); }
+    public void testkeyword_test_suite() { doTest(true, true); }
 
     // Other symbols
     public void testother_symbols() { doTest(true, true);}

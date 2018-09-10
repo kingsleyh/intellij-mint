@@ -103,7 +103,8 @@ BACKTICKS=\`(\\.|[^\\\`]|\n)*\`
   "?"                     { return QUESTION; }
   ";"                     { return SEMI; }
   "case"                  { return CASE; }
-  "do"                    { return DO; }
+  "sequence"              { return SEQUENCE; }
+  "parallel"              { return PARALLEL; }
   "try"                   { return TRY; }
   "else"                  { return ELSE; }
   "if"                    { return IF; }
@@ -135,6 +136,8 @@ BACKTICKS=\`(\\.|[^\\\`]|\n)*\`
   "connect"               { return CONNECT; }
   "exposing"              { return EXPOSING; }
   "style"                 { return STYLE; }
+  "suite"                 { return SUITE; }
+  "test"                  { return TEST; }
 
   {LOWER_CASE_IDENTIFIER} { return LOWER_IDENT; }
     {CAPITALISED_IDENTIFIER} {
