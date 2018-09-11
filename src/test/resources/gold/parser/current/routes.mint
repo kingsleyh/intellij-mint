@@ -1,48 +1,48 @@
 routes {
   /calibration {
-    do {
+    sequence {
       Application.setPage("calibration")
     }
   }
 
   /calibration/run {
-    do {
+    sequence {
       Application.setPage("calibration-run")
     }
   }
 
   /calibration/feedback {
-    do {
+    sequence {
       Application.setPage("calibration-feedback")
     }
   }
 
   /coach {
-    do {
+    sequence {
       Application.setPage("coach")
     }
   }
 
  /coach/new/:id (id: Number){
-    do {
+    sequence {
       Application.setPage("coach")
     }
   }
 
  /coach/id/:id/name/:age (id: Number, age: Number){
-    do {
+    sequence {
       Application.setPage("coach")
     }
   }
 
   /home {
-    do {
+    sequence {
       Application.setPage("home")
     }
   }
 
   / {
-    do {
+    sequence {
       Application.setPage("home")
     }
   }

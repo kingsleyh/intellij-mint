@@ -42,7 +42,10 @@ public interface MintTokenSets {
             ROUTES,
             CONNECT,
             EXPOSING,
-            STYLE
+            STYLE,
+            SUITE,
+            THEN,
+            TEST
     );
 
     TokenSet Operators = TokenSet.create(

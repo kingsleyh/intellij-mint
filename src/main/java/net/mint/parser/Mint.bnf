@@ -180,7 +180,7 @@ statement ::=
  | ifElseStatement
  | '(' recordItems? ')' ':' ofType '=>' '{' expressionsOrStatements? '}'
  | 'sequence' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
- | 'parallel' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
+ | 'parallel' '{' expressionsOrStatements? '}' [catches] ['then' '{' expressionsOrStatements? '}'] ['finally' '{' expressionsOrStatements? '}']
  | 'try' '{' expressionsOrStatements? '}' [catches] ['finally' '{' expressionsOrStatements? '}']
  | 'next' '{' recordAssignments? '}'
  | 'connect' qualifiedName 'exposing' '{' exports '}'
@@ -304,7 +304,7 @@ private attrEmpty ::= attrName
 private attrComponent ::= attrName '=' '{'? tagValues '}'?
 private attrDoubleQuoted ::= attrName? '=' STRING_LITERAL
 
-htmlTag ::= identifier | properName
+htmlTag ::= <<nonStrictId>> | properName
 tagName ::= htmlTag ('::' htmlTag)?
 attrName ::= identifier
 

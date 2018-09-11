@@ -1,6 +1,6 @@
 component Do {
   fun test : Void {
-    do {
+    sequence {
       void
     } finally {
       void

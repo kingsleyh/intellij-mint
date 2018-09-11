@@ -13,6 +13,8 @@ component Do {
       void
     } catch String => a {
       "hello"
+    } then {
+      "woop"
     }
   }
 
