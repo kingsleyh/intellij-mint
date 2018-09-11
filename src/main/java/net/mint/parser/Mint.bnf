@@ -93,6 +93,7 @@
         STYLE =                              "style"
         TEST =                               "test"
         SUITE =                              "suite"
+        THEN =                               "then"
 
         MLCOMMENT =                          "MLCOMMENT"
         STRING_LITERAL =                     "STRING_LITERAL"

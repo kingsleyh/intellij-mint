@@ -7,6 +7,8 @@ component Cool {
   fun go() : Void {
     parallel {
       something()
+    } then {
+      something()
     }
   }
 

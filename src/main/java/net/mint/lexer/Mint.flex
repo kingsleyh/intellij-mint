@@ -138,6 +138,7 @@ BACKTICKS=\`(\\.|[^\\\`]|\n)*\`
   "style"                 { return STYLE; }
   "suite"                 { return SUITE; }
   "test"                  { return TEST; }
+  "then"                  { return THEN; }
 
   {LOWER_CASE_IDENTIFIER} { return LOWER_IDENT; }
     {CAPITALISED_IDENTIFIER} {
